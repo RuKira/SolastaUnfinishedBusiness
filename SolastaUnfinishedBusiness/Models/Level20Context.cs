@@ -132,7 +132,7 @@ internal static class Level20Context
     internal static readonly FeatureDefinitionPower PowerWarlockEldritchMaster = FeatureDefinitionPowerBuilder
         .Create(PowerWizardArcaneRecovery, PowerWarlockEldritchMasterName)
         .SetGuiPresentation(Category.Feature)
-        .SetUsesFixed(ActivationTime.Minute1, RechargeRate.LongRest)
+        .SetUsesFixed(ActivationTime.Minute1, RechargeRate.ShortRest)
         .AddToDB();
 
     internal static readonly FeatureDefinitionSense SenseRangerFeralSenses = FeatureDefinitionSenseBuilder
@@ -496,14 +496,16 @@ internal static class Level20Context
             .Build();
 
         effectFormRestoration.SpellSlotsForm.type = SpellSlotsForm.EffectType.GainSorceryPoints;
-        effectFormRestoration.SpellSlotsForm.sorceryPointsGain = 4;
+        effectFormRestoration.SpellSlotsForm.sorceryPointsGain = 40;
 
         PowerSorcerousRestoration.EffectDescription.EffectForms.Add(effectFormRestoration);
 
         Sorcerer.FeatureUnlocks.AddRange(
+            new FeatureUnlockByLevel(PointPoolSorcererAdditionalMetamagic, 11),
+            new FeatureUnlockByLevel(FeatureSetAbilityScoreChoice, 11),
             new FeatureUnlockByLevel(PointPoolSorcererAdditionalMetamagic, 17),
             new FeatureUnlockByLevel(FeatureSetAbilityScoreChoice, 19),
-            new FeatureUnlockByLevel(PowerSorcerousRestoration, 20)
+            new FeatureUnlockByLevel(PowerSorcerousRestoration, 7)
         );
 
         EnumerateSlotsPerLevel(
@@ -542,7 +544,7 @@ internal static class Level20Context
             new FeatureUnlockByLevel(pointPoolWarlockMysticArcanum9, 17),
             new FeatureUnlockByLevel(pointPoolWarlockInvocation18, 18),
             new FeatureUnlockByLevel(FeatureSetAbilityScoreChoice, 19),
-            new FeatureUnlockByLevel(PowerWarlockEldritchMaster, 20)
+            new FeatureUnlockByLevel(PowerWarlockEldritchMaster, 10)
         );
 
         CastSpellWarlock.KnownSpells.SetRange(SharedSpellsContext.WarlockKnownSpells);

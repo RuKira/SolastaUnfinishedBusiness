@@ -1,11 +1,12 @@
-﻿using SolastaUnfinishedBusiness.Api.ModKit;
+﻿using System;
+using SolastaUnfinishedBusiness.Api.ModKit;
 using SolastaUnfinishedBusiness.Models;
 
 namespace SolastaUnfinishedBusiness.Displays;
 
 internal static class RulesDisplay
 {
-    private static readonly string[] CriticalHitOptions = ["0", "1", "2", "3"];
+    private static readonly string[] CriticalHitOptions = ["0", "1", "2", "3", "4"];
     private static readonly string[] SenseNormalVisionOptions = ["12", "24", "48"];
 
     internal static void DisplayRules()
@@ -546,6 +547,7 @@ internal static class RulesDisplay
         UI.Label(Gui.Localize("ModUi/&CriticalOption1"));
         UI.Label(Gui.Localize("ModUi/&CriticalOption2"));
         UI.Label(Gui.Localize("ModUi/&CriticalOption3"));
+        UI.Label(Gui.Localize("ModUi/&CriticalOption4"));
         UI.Label();
 
         using (UI.HorizontalScope())

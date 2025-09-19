@@ -1,0 +1,2 @@
+﻿Spell/&OrbOfElementsTitle=Orb of Elements
+Spell/&OrbOfElementsDescription=Launch a burning orb of elemental power.

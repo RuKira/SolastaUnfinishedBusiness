@@ -378,7 +378,7 @@ internal static class OtherFeats
             .SetFeatures(
                 ActionAffinitySorcererMetamagicToggle,
                 FeatureDefinitionAttributeModifierBuilder
-                    .Create(AttributeModifierSorcererSorceryPointsBase, "AttributeModifierSorcererSorceryPointsBonus2")
+                    .Create(AttributeModifierSorcererSorceryPointsBase, "AttributeModifierSorcererSorceryPointsBonus5")
                     .SetGuiPresentationNoContent(true)
                     .SetModifier(
                         AttributeModifierOperation.AddHalfProficiencyBonus,

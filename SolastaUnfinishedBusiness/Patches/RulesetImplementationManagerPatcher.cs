@@ -188,7 +188,7 @@ public static class RulesetImplementationManagerPatcher
             var diceType = useVersatileDamage ? damageForm.VersatileDieType : damageForm.DieType;
 
             if (damageForm.OverrideWithBardicInspirationDie &&
-                rulesetActor is RulesetCharacterHero hero&&
+                rulesetActor is RulesetCharacterHero hero &&
                 hero.GetBardicInspirationDieValue() != DieType.D1)
             {
                 diceType = hero.GetBardicInspirationDieValue();
@@ -212,6 +212,157 @@ public static class RulesetImplementationManagerPatcher
             return Mathf.FloorToInt(
                 damageMultiplier *
                 ((2 * totalDamage) + damageForm.BonusDamage - damageRollReduction + additionalDamage));
+        }
+
+        private static bool TryExtraAttackRoll(RulesetCharacter attacker, RulesetCharacter defender, out bool isCrit)
+        {
+            isCrit = false;
+            if (attacker == null || defender == null) return false;
+
+            int roll = attacker.RollDie(DieType.D20, RollContext.AttackRoll, false, AdvantageType.None, out _, out _,
+                false);
+
+            if (roll == 20) isCrit = true;
+
+            int targetAC = defender.TryGetAttributeValue(AttributeDefinitions.ArmorClass);
+
+            return roll >= targetAC;
+        }
+
+        private static int RollDamageOption4(
+            RulesetActor rulesetActor,
+            DamageForm damageForm,
+            int addDice,
+            int additionalDamage,
+            int damageRollReduction,
+            float damageMultiplier,
+            bool useVersatileDamage,
+            bool attackModeDamage,
+            List<int> rolledValues,
+            bool canRerollDice,
+            RulesetCharacter defender,
+            RulesetImplementationDefinitions.ApplyFormsParams formsParams
+        )
+        {
+            var dieType = useVersatileDamage ? damageForm.versatileDieType : damageForm.dieType;
+            var diceMax = DiceMaxValue[(int)dieType];
+            var diceCount = damageForm.DiceNumber + addDice;
+
+            var attacker = rulesetActor as RulesetCharacter;
+            int totalDamage = 0;
+
+            Debug.Log(
+                $"[CodexCrit] START Crit Chain: {attacker?.Name} attacking {defender?.Name}, {diceCount}d{dieType} (Max={diceMax})");
+
+            // --- First crit: guaranteed max damage ---
+            rolledValues.Clear();
+            for (int i = 0; i < diceCount; i++) rolledValues.Add(diceMax);
+
+            int firstCritDamage =
+                (diceCount * diceMax) + damageForm.BonusDamage + additionalDamage - damageRollReduction;
+            totalDamage += firstCritDamage;
+
+            Debug.Log($"[CodexCrit] First Crit = {firstCritDamage}, Total={totalDamage}");
+
+            // --- Second roll ---
+            if (TryExtraAttackRoll(attacker, defender, out bool secondIsCrit))
+            {
+                Debug.Log($"[CodexCrit] Second roll HIT. Crit={secondIsCrit}");
+                if (secondIsCrit)
+                {
+                    int secondCritDamage = (diceCount * diceMax) + damageForm.BonusDamage;
+                    totalDamage += secondCritDamage;
+
+                    for (int i = 0; i < diceCount; i++) rolledValues.Add(diceMax);
+
+                    Debug.Log($"[CodexCrit] Second Crit = {secondCritDamage}, Total={totalDamage}");
+
+                    // --- Third roll ---
+                    if (TryExtraAttackRoll(attacker, defender, out bool thirdIsCrit))
+                    {
+                        Debug.Log($"[CodexCrit] Third roll HIT. Crit={thirdIsCrit}");
+
+                        if (thirdIsCrit && defender != null)
+                        {
+                            int thirdCritDamage = (diceCount * diceMax) + damageForm.BonusDamage;
+                            totalDamage += thirdCritDamage;
+
+                            Debug.Log(
+                                $"[CodexCrit] THIRD CRIT = INSTANT KILL on {defender.Name}, Added {thirdCritDamage} before lethal.");
+
+                            RulesetActor.InflictDamage(
+                                defender.CurrentHitPoints,
+                                damageForm,
+                                damageForm.DamageType,
+                                formsParams,
+                                defender,
+                                true,
+                                rulesetActor.Guid,
+                                false,
+                                [],
+                                new RollInfo(dieType, [diceMax], 0),
+                                true,
+                                out _
+                            );
+
+                            for (int i = 0; i < diceCount; i++) rolledValues.Add(diceMax);
+
+                            return Mathf.FloorToInt(totalDamage * damageMultiplier);
+                        }
+                        else if (!thirdIsCrit)
+                        {
+                            var tempRolls = new List<int>();
+                            int rolled = rulesetActor.RollDiceAndSum(
+                                dieType,
+                                attackModeDamage ? RollContext.AttackDamageValueRoll : RollContext.MagicDamageValueRoll,
+                                diceCount,
+                                tempRolls,
+                                canRerollDice,
+                                false);
+
+                            int thirdNormalDamage = rolled + damageForm.BonusDamage;
+                            totalDamage += thirdNormalDamage;
+
+                            rolledValues.AddRange(tempRolls);
+
+                            Debug.Log($"[CodexCrit] Third Normal Hit = {thirdNormalDamage}, Total={totalDamage}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log($"[CodexCrit] Third roll MISSED. Chain ends.");
+                        rolledValues.Add(0);
+                    }
+                }
+                else
+                {
+                    var tempRolls = new List<int>();
+                    int rolled = rulesetActor.RollDiceAndSum(
+                        dieType,
+                        attackModeDamage ? RollContext.AttackDamageValueRoll : RollContext.MagicDamageValueRoll,
+                        diceCount,
+                        tempRolls,
+                        canRerollDice,
+                        false);
+
+                    int secondNormalDamage = rolled + damageForm.BonusDamage;
+                    totalDamage += secondNormalDamage;
+
+                    rolledValues.AddRange(tempRolls);
+
+                    Debug.Log($"[CodexCrit] Second Normal Hit = {secondNormalDamage}, Total={totalDamage}");
+                }
+            }
+            else
+            {
+                Debug.Log($"[CodexCrit] Second roll MISSED. Chain ends.");
+                rolledValues.Add(0);
+            }
+
+            int finalDamage = Mathf.FloorToInt(totalDamage * damageMultiplier);
+            Debug.Log($"[CodexCrit] FINAL DAMAGE = {finalDamage}");
+
+            return finalDamage;
         }
 
         private static int RollDamage(
@@ -280,6 +431,9 @@ public static class RulesetImplementationManagerPatcher
                     3 => RollDamageOption3(
                         rulesetActor, damageForm, addDice, additionalDamage, damageRollReduction, damageMultiplier,
                         maximumDamage, useVersatileDamage, attackModeDamage, rolledValues, canRerollDice),
+                    4 => RollDamageOption4(rulesetActor, damageForm, addDice, additionalDamage, damageRollReduction,
+                        damageMultiplier, useVersatileDamage, attackModeDamage, rolledValues, canRerollDice,
+                        formsParams.targetCharacter as RulesetCharacter, formsParams),
                     _ => rulesetActor.RollDamage(
                         damageForm, addDice, true, additionalDamage, damageRollReduction, damageMultiplier,
                         maximumDamage, useVersatileDamage, attackModeDamage, rolledValues, canRerollDice)

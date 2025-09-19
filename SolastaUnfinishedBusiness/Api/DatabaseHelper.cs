@@ -24551,6 +24551,13 @@ internal static partial class DatabaseHelper
 
     internal static class SpellDefinitions
     {
+        #region Codex Spells
+        
+        internal static SpellDefinition OrbOfElements { get;  } =
+            GetDefinition<SpellDefinition>("OrbOfElements")
+        
+        #endregion
+        
         internal static SpellDefinition AcidArrow { get; } =
             GetDefinition<SpellDefinition>("AcidArrow");
 

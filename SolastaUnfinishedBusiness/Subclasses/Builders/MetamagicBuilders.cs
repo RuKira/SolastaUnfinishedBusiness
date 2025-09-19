@@ -41,7 +41,7 @@ internal static class MetamagicBuilders
         var altruisticSelf = MetamagicOptionDefinitionBuilder
             .Create($"{MetamagicAltruistic}Self")
             .SetGuiPresentation(Category.Feature, hidden: true)
-            .SetCost(sorceryPointsCost: 3)
+            .SetCost(sorceryPointsCost: 2)
             .AddCustomSubFeatures(new MetamagicAltruisticSelf(), validator)
             .AddToDB();
 
@@ -90,7 +90,7 @@ internal static class MetamagicBuilders
         {
             effectDescription.targetSide = Side.Ally;
             effectDescription.rangeType = RangeType.Distance;
-            effectDescription.rangeParameter = 6;
+            effectDescription.rangeParameter = 12;
             effectDescription.targetType = TargetType.IndividualsUnique;
             effectDescription.targetParameter = 1;
             effectDescription.targetExcludeCaster = true;
@@ -495,7 +495,7 @@ internal static class MetamagicBuilders
         return MetamagicOptionDefinitionBuilder
             .Create(MetamagicSeeking)
             .SetGuiPresentation(Category.Feature)
-            .SetCost(MetamagicCostMethod.FixedValue, 2)
+            .SetCost(MetamagicCostMethod.FixedValue, 1)
             .AddCustomSubFeatures(new TryAlterOutcomeAttackMetamagicSeeking(), validator)
             .AddToDB();
     }
@@ -591,7 +591,7 @@ internal static class MetamagicBuilders
         return MetamagicOptionDefinitionBuilder
             .Create(MetamagicWidened)
             .SetGuiPresentation(Category.Feature)
-            .SetCost(MetamagicCostMethod.FixedValue, 2)
+            .SetCost(MetamagicCostMethod.FixedValue, 1)
             .AddCustomSubFeatures(new ModifyEffectDescriptionMetamagicWidened(), validator)
             .AddToDB();
     }

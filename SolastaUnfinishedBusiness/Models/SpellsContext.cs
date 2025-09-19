@@ -371,6 +371,11 @@ internal static class SpellsContext
         RegisterSpell(BuildSickeningRadiance(), 0, SpellListSorcerer, SpellListWarlock, SpellListWizard);
         RegisterSpell(StaggeringSmite, 0, SpellListPaladin);
         RegisterSpell(VitriolicSphere, 0, SpellListSorcerer, SpellListWizard);
+        Main.Info($"Registered OrbOfElements. Sorcerer list now has {SpellListSorcerer.SpellsByLevel[3].Spells.Count} level-4 spells");
+        Main.Info($"Registered OrbOfElements. Wizard list now has {SpellListWizard.SpellsByLevel[3].Spells.Count} level-4 spells");
+        RegisterSpell(BuildOrbOfElements(), 0, SpellListSorcerer, SpellListWizard);
+        Main.Info($"Registered OrbOfElements. Sorcerer list now has {SpellListSorcerer.SpellsByLevel[3].Spells.Count} level-4 spells");
+        Main.Info($"Registered OrbOfElements. Wizard list now has {SpellListWizard.SpellsByLevel[3].Spells.Count} level-4 spells");
 
         //5th level
         RegisterSpell(BanishingSmite, 0, SpellListPaladin);
