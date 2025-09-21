@@ -31,58 +31,54 @@ namespace SolastaUnfinishedBusiness.Spells;
 
 internal static partial class SpellBuilders
 {
-    #region Orb of Elements
     
+    #region Orb of Elements
+
     internal static SpellDefinition BuildOrbOfElements()
     {
         const string NAME = "OrbOfElements";
-        Main.Info("Building Orb of Elements");
 
-        var effectDescription = EffectDescriptionBuilder.Create()
-            .SetDurationData(DurationType.Instantaneous)
-            .SetTargetingData(
-                Side.Enemy,
-                RangeType.Distance,
-                24,
-                TargetType.Individuals
-            )
-            .SetSavingThrowData(
-                false,
-                AttributeDefinitions.Dexterity,
-                true,
-                EffectDifficultyClassComputation.SpellCastingFeature
-            )
-            .SetEffectForms(
-                EffectFormBuilder
-                    .Create()
-                    .SetDamageForm(
-                        damageType: DamageTypeFire, // TODO: later allow choice of element
-                        dieType: DieType.D8,
-                        diceNumber: 6
-                    )
-                    .Build()
-            )
-            .Build();
+        var damageTypes = new[] { DamageTypeAcid, DamageTypeCold, DamageTypeFire, DamageTypeLightning, DamageTypePoison, DamageTypeThunder, DamageTypeRadiant, DamageTypeNecrotic };
+        var sprite = Sprites.GetSprite(NAME, Resources.OrbOfElements, 128);
+        var subSpells = (from damageType in damageTypes
+            let title = Gui.Localize($"Tooltip/&Tag{damageType}Title")
+            let description = Gui.Format("Spell/&SubSpellOrbOfElementsDescription", title)
+            select SpellDefinitionBuilder
+                .Create($"{NAME}_{damageType}")
+                .SetGuiPresentation(title, description, sprite)
+                .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolEvocation)
+                .SetSpellLevel(4)
+                .SetCastingTime(ActivationTime.Action)
+                //.SetMaterialComponent(MaterialComponentType.Specific)
+                //.SetSpecificMaterialComponent("Orb", 0, false)
+                .SetVerboseComponent(true)
+                .SetSomaticComponent(true)
+                .SetVocalSpellSameType(VocalSpellSemeType.Attack)
+                .SetEffectDescription(EffectDescriptionBuilder.Create()
+                    .SetTargetingData(Side.Enemy, RangeType.Distance, 24, TargetType.IndividualsUnique, 4)
+                    .SetEffectForms(EffectFormBuilder.DamageForm(damageType, 6, DieType.D8))
+                    .Build())
+                .AddToDB()).ToList();
 
-        var spell = SpellDefinitionBuilder
+        return SpellDefinitionBuilder
             .Create(NAME)
-            .SetGuiPresentation(
-                NAME,
-                Category.Spell
-            )
+            .SetGuiPresentation(NAME, Category.Spell, sprite)
             .SetSchoolOfMagic(SchoolOfMagicDefinitions.SchoolEvocation)
             .SetSpellLevel(4)
             .SetCastingTime(ActivationTime.Action)
-            .SetVerboseComponent(true)
-            .SetSomaticComponent(true)
-            .SetMaterialComponent(MaterialComponentType.Specific)
+            //.SetMaterialComponent(MaterialComponentType.Specific)
             //.SetSpecificMaterialComponent("Orb", 0, false)
-            .SetEffectDescription(effectDescription)
+            .SetVocalSpellSameType(VocalSpellSemeType.Attack)
+            .SetSomaticComponent(true)
+            .SetVerboseComponent(true)
+            .SetSubSpells([.. subSpells])
+            .SetEffectDescription(
+                EffectDescriptionBuilder
+                    .Create()
+                    .SetTargetingData(Side.Enemy, RangeType.Distance, 24, TargetType.IndividualsUnique, 4)
+                    .Build())
             .AddToDB();
-        
-        return spell;
     }
 
     #endregion
-    
 }
