@@ -84,10 +84,9 @@ internal static class TwoWeaponCombatFeats
             int damageAmount)
         {
             var rulesetAttacker = attacker.RulesetCharacter;
-            var attackModeWeapon = attackMode.SourceDefinition as ItemDefinition;
-            var offhandWeapon = rulesetAttacker.GetOffhandWeapon()?.ItemDefinition;
+            var offhandWeapon = rulesetAttacker.GetOffhandWeapon();
 
-            if (attackModeWeapon != offhandWeapon)
+            if (attackMode.SourceObject != offhandWeapon)
             {
                 yield break;
             }
@@ -112,6 +111,7 @@ internal static class TwoWeaponCombatFeats
 
             attackModeCopy.Copy(attackMode);
             attackModeCopy.AddAttackTagAsNeeded(DualFlurryAttackMark);
+            attackModeCopy.AttackTags.RemoveAll(t => t == DualFlurryTriggerMark);
             rulesetAttacker.LogCharacterUsedFeature(feature);
             attacker.MyExecuteActionAttack(
                 Id.AttackFree,

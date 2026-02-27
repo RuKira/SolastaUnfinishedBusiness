@@ -94,11 +94,17 @@ public static class SmiteSpells2024Context
         static void SwitchSmiteDamageOn(FeatureDefinitionAdditionalDamage damage)
         {
             damage.requiredProperty = RestrictedContextRequiredProperty.None;
+
+            damage.SetSubFeatureOfType<OathOfDemonHunter.ValidateSmiteDamageForDemonHunter>(null);
         }
 
         static void SwitchSmiteDamageOff(FeatureDefinitionAdditionalDamage damage)
         {
             damage.requiredProperty = RestrictedContextRequiredProperty.MeleeWeapon;
+
+            // Add custom validator to allow Oath of Demon Hunter to use crossbows in non-2024 mode
+            damage.SetSubFeatureOfType<OathOfDemonHunter.ValidateSmiteDamageForDemonHunter>(
+                new OathOfDemonHunter.ValidateSmiteDamageForDemonHunter());
         }
 
 
@@ -126,18 +132,15 @@ public static class SmiteSpells2024Context
 
         var weapon = attackMode.SourceDefinition as ItemDefinition;
 
-        var divineSmiteOnly = false;
         //Only attacks with melee weapons or unarmed are supported (can be thrown melee weapon)
         if (rangedAttack
             && weapon != null
             && weapon.WeaponDescription?.WeaponTypeDefinition?.WeaponProximity != AttackProximity.Melee)
         {
-            //Demon Hunter can use Divine Smite on crossbows, but not other Smite spells
-            if (OathOfDemonHunter.IsOathOfDemonHunterWeapon(attackMode, null, attacker.RulesetCharacter))
-            {
-                divineSmiteOnly = true;
-            }
-            else
+            //Demon Hunter can use Smite spells on crossbows
+            if (!OathOfDemonHunter.IsEnergyCrossbowBoltActive(attacker.RulesetCharacter,
+                    attackMode.sourceObject as RulesetItem,
+                    attackMode))
             {
                 yield break;
             }
@@ -159,8 +162,14 @@ public static class SmiteSpells2024Context
             yield break;
         }
 
-        //Check for available BA cast spell
-        if (attacker.GetActionStatus(Id.CastBonus, ActionScope.Battle) != ActionStatus.Available)
+        //Can we cast BA smite spell? (doesn't check if we have spell prepared - GetSmiteOptions is used for that)
+        if (GetSmiteStatus(attacker) != ActionStatus.Available)
+        {
+            yield break;
+        }
+
+        //Can't smite if you are spending BA on this attack (slight conflict with `Nick` mastery)
+        if (attackMode.actionType == ActionType.Bonus)
         {
             yield break;
         }
@@ -174,7 +183,7 @@ public static class SmiteSpells2024Context
         var spellPoints = attackerCharacter.IsSpellPointsEnabled();
         var hasFreeUseDivineSmite = attackerCharacter.HasAnyFeature(Tabletop2024Context.DivineSmite2024AutoSpell);
         var freeUseDivineSmiteAvailable = !attackerCharacter.HasAnyConditionOfType(ConditionMarkUsedFreeSmite.Name);
-        var smites = GetSmiteOptions(attackerCharacter, divineSmiteOnly, spellPoints,
+        var smites = GetSmiteOptions(attackerCharacter, false, spellPoints,
             hasFreeUseDivineSmite && freeUseDivineSmiteAvailable);
 
         var availableSmites = smites.Where(x => x.Available).ToList();
@@ -285,11 +294,75 @@ public static class SmiteSpells2024Context
         {
             return character.AreSpellComponentsValid(spell)
                    && ((canFreeUseDivineSmite && spell == Tabletop2024Context.DivineSmiteSpell)
-                       || (spellPoints
+                       || (spellPoints && repertoire.SpellCastingFeature?.UniqueLevelSlots != true
                            ? SpellPointsContext.CanCastSpellOfLevel(character, spell.SpellLevel)
                            : repertoire.CanCastSpellOfLevel(spell.SpellLevel)));
         }
     }
+    
+    private static ActionStatus GetSmiteStatus(GameLocationCharacter caster)
+  {
+    var actionId = Id.CastBonus;
+    var scope = ActionScope.Battle;
+      
+    var actionDefinition =
+      ServiceRepository.GetService<IGameLocationActionService>().AllActionDefinitions[actionId];
+    var actionType = actionDefinition.ActionType;
+    
+    
+    var actionTypeStatus = caster.GetActionTypeStatus(actionDefinition.ActionType, scope);
+    if (actionTypeStatus == ActionStatus.Unavailable
+        || actionDefinition.ActionScope != ActionScope.All && actionDefinition.ActionScope != scope)
+    {
+        return ActionStatus.Unavailable;
+    }
+
+    if (actionDefinition.UsesPerTurn > 0 
+        && caster.UsedSpecialFeatures.TryGetValue(actionDefinition.Name, out var value) 
+        && value >= actionDefinition.UsesPerTurn)
+    {
+        return ActionStatus.Unavailable;
+    }
+    
+
+    if (!caster.RulesetCharacter.CanCastSpells())
+    {
+        return ActionStatus.Unavailable;
+    }
+
+    var index = caster.currentActionRankByType[actionType];
+    if (actionDefinition.RequiresAuthorization)
+    {
+      if (index >= caster.actionPerformancesByType[actionType].Count
+          || !caster.actionPerformancesByType[actionType][index].AuthorizedActions.Contains(actionId))
+      {
+          return ActionStatus.Unavailable;
+      }
+    }
+    else if (index >= caster.actionPerformancesByType[actionType].Count)
+    {
+        return ActionStatus.Unavailable;
+    }
+
+
+    if (index >= caster.actionPerformancesByType[actionType].Count)
+    {
+        Trace.LogAssertion("Not enough ranks for action type" + actionType);
+        return ActionStatus.Unavailable;
+    }
+
+    if (!caster.actionPerformancesByType[actionType][index].CanPerformAction(actionId))
+    {
+        return ActionStatus.Unavailable;
+    }
+
+    return actionTypeStatus switch
+    {
+        ActionStatus.CannotPerform when !caster.IsSpecialAction(actionId) => ActionStatus.CannotPerform,
+        ActionStatus.Spent when !caster.IsSpecialAction(actionId) => ActionStatus.Spent,
+        _ => caster.CanOnlyUseCantrips ? ActionStatus.Unavailable : ActionStatus.Available
+    };
+  }
 
     internal static bool HasSmites(this RulesetCharacter character)
     {
@@ -387,6 +460,8 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
     private readonly bool _freeUseAvailable;
     public const string Name = "SmiteSlotSelect";
     private readonly string _spellName;
+    private int _spellLevel;
+    private int _selectedOption = -1;
 
     public ReactionRequestSelectSmiteSlot(CharacterActionParams actionParams, bool hasFreeUse, bool freeUseAvailable)
         : base(Name, actionParams)
@@ -401,29 +476,29 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
 
     private new void BuildSlotSubOptions()
     {
+        _selectedOption = -1;
         SubOptionsAvailability.Clear();
         if (reactionParams.RulesetEffect is not RulesetEffectSpell spellEffect) { return; }
 
         var spellRepertoire = spellEffect.SpellRepertoire;
+        var maxSpellLevel = spellRepertoire.MaxSpellLevelOfSpellCastingLevel;
         var spell = spellEffect.SpellDefinition;
-        var spellLevel = spell.SpellLevel;
+        _spellLevel = spell.SpellLevel;
 
         var preSelected = -1;
+        var index = 0;
         if (_hasFreeUse)
         {
+            index++;
             SubOptionsAvailability.Add(0, _freeUseAvailable);
             if (_freeUseAvailable) { preSelected = 0; }
-
-            SelectSubOption(0);
         }
 
-        for (var index = 1; index <= spellRepertoire.MaxSpellLevelOfSpellCastingLevel; ++index)
+        for (var slotLevel = _spellLevel; slotLevel <= maxSpellLevel; ++slotLevel, ++index)
         {
-            if (index < spellLevel) { continue; }
-
-            spellRepertoire.GetSlotsNumber(index, out var remaining, out _);
+            spellRepertoire.GetSlotsNumber(slotLevel, out var remaining, out _);
             var hasSlots = remaining > 0;
-            SubOptionsAvailability.Add(index, hasSlots);
+            SubOptionsAvailability.Add(slotLevel, hasSlots);
             if (preSelected < 0 && hasSlots) { preSelected = index; }
         }
 
@@ -434,9 +509,24 @@ internal class ReactionRequestSelectSmiteSlot : ReactionRequestCastSpell
     {
         if (reactionParams.RulesetEffect is not RulesetEffectSpell spellEffect) { return; }
 
-        spellEffect.SlotLevel = option;
+        _selectedOption = option;
+        var slotLevel = _spellLevel + option;
+        if (_hasFreeUse)
+        {
+            if (option == 0)
+            {
+                slotLevel = 0;
+            }
+            else
+            {
+                slotLevel -= 1;
+            }
+        }
+
+        spellEffect.SlotLevel = slotLevel;
     }
 
+    public override int SelectedSubOption => _selectedOption;
     public override string SuboptionTag => "DivineSmite";
 
     public override string FormatTitle()

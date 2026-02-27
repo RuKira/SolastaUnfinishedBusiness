@@ -140,7 +140,15 @@ internal static class FeatsContext
 
         var groupedFeat = featDefinition.GetFirstSubFeatureOfType<GroupedFeat>();
 
-        groupedFeat?.GetSubFeats(true, true).ForEach(x => UpdateFeatsVisibility(x, hidden));
+        if (!hidden && featDefinition == GroupFeats.FeatGroupFightingStyle)
+        {
+            groupedFeat?.GetSubFeats(true, true)
+                .ForEach(x => UpdateFeatsVisibility(x, FightingStyleContext.HideFightingStyle(x)));
+        }
+        else
+        {
+            groupedFeat?.GetSubFeats(true, true).ForEach(x => UpdateFeatsVisibility(x, hidden));
+        }
     }
 
     private static void UpdateFeatGroupsVisibility([NotNull] BaseDefinition featDefinition)
@@ -282,7 +290,7 @@ internal static class FeatsContext
 
         if (active && Main.Settings.EnableSameWidthFeatSelection)
         {
-            var hero = Global.LevelUpHero;
+            var hero = panel.InspectedCharacter;
             var buildingData = hero?.GetHeroBuildingData();
 
             if (buildingData == null)

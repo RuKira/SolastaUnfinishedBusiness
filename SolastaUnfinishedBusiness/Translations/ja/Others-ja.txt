@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerDeftExplorerDescription=旅のおかげで、あなた�
 Feature/&FeatureSetRangerDeftExplorerTitle=巧みな探検家
 Feature/&FeatureSetRangerFavoredEnemyDescription=ハンターズ マーク呪文は常に準備されています。呪文スロットを消費せずに 2 回唱えることができ、大休憩を終えるとこの能力の使用回数をすべて回復します。呪文スロットを消費せずに呪文を唱えられる回数は、特定のレンジャー レベルで増加し、5 レベルで 3 回、9 レベルで 4 回、13 レベルで 5 回、17 レベルで 6 回に増加します。
 Feature/&FeatureSetRangerFavoredEnemyTitle=好敵手
+Feature/&FeatureSetSorcererDraconicResilience2024Description=レベルごとにヒット ポイントが 1 追加され、鎧を着ていないときの鎧クラスは 10 + 器用さボーナス + カリスマ ボーナスになります。
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=生来の魔術の使用回数が残っていない場合、それを起動するためのボーナス アクションを実行するときに 2 魔術ポイントを消費すると、それを使用できます。
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=魔術の化身
 Feature/&FeatureSorcererArcaneApotheosisDescription=生来の魔術機能がアクティブな間、魔術ポイントを消費せずに、各ターンに 1 つのメタマジック オプションを使用できます。
@@ -394,7 +395,7 @@ Feedback/&ConcentrationEffectCheckRolledAnyAdvantageLine={0} ロールで {1} �
 Feedback/&ConcentrationEffectCheckRolledLine={0} ロールで {1} 対難易度 {2} を維持、ロール {3} = {4}
 Feedback/&FlankingAttack=側面攻撃
 Feedback/&HigherGroundAttack=高いところ
-Feedback/&MagicalGuidanceCheckToHitRoll={0}は{1}を使用し、チェックロールで{3}の代わりに{2}をロールします
+Feedback/&MagicalGuidanceCheckToHitRoll={0}は{1}を使用し、チェックロールで{3}の代わりに{2}をロールします: {4}
 Feedback/&MetamagicActivatedShortLine={0}は{1}メタマジックを発動します
 Feedback/&NarrativeChoiceRoll={0} は、{1} の物語の選択肢をロールして、{2} の結果をもたらします。
 Feedback/&PowerAfterRestIdentifyUsedWhileTravellingFormat=旅行中は休憩後にパワーを識別できません

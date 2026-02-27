@@ -19,6 +19,7 @@ using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionPower
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.CharacterClassDefinitions;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionFeatureSets;
 using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionAttributeModifiers;
+using static SolastaUnfinishedBusiness.Api.DatabaseHelper.FeatureDefinitionFightingStyleChoices;
 
 namespace SolastaUnfinishedBusiness.Models;
 
@@ -127,16 +128,10 @@ public static partial class Tabletop2024Context
                 .Create($"PowerPaladinRestoringTouch{condition.Name}")
                 .SetGuiPresentation(title, description)
                 .SetSharedPool(ActivationTime.NoCost, PowerPaladinRestoringTouch, 5)
-                .SetEffectDescription(
-                    EffectDescriptionBuilder
-                        .Create()
-                        .SetTargetingData(Side.Ally, RangeType.Distance, 12, TargetType.IndividualsUnique)
-                        .SetEffectForms(
-                            EffectFormBuilder
-                                .Create()
-                                .SetConditionForm(condition, ConditionForm.ConditionOperation.Remove)
-                                .Build())
-                        .Build())
+                .SetEffectDescription(EffectDescriptionBuilder.Create()
+                    .SetTargetingData(Side.Ally, RangeType.Distance, 12, TargetType.IndividualsUnique)
+                    .SetEffectForms(EffectFormBuilder.RemoveConditionForm(condition))
+                    .Build())
                 .AddToDB();
 
             powers.Add(power);
@@ -412,12 +407,16 @@ public static partial class Tabletop2024Context
                 yield break;
             }
 
-            var aborted = false;
             var caster = action.ActingCharacter;
             var rulesetCaster = caster.RulesetCharacter;
+            var usablePowerPool = rulesetCaster.UsablePowers.FirstOrDefault(u => u.PowerDefinition == PowerPaladinRestoringTouch);
+            
+            //No `Restoring Touch` - too low level
+            if (usablePowerPool == null) { yield break; }
+
+            var aborted = false;
             var target = action.ActionParams.TargetCharacters[0];
             var rulesetTarget = target.RulesetCharacter;
-            var usablePowerPool = PowerProvider.Get(PowerPaladinRestoringTouch, rulesetCaster);
 
             while (!aborted && rulesetCaster.GetRemainingUsesOfPower(usablePowerPool) > 0)
             {
@@ -475,6 +474,20 @@ public static partial class Tabletop2024Context
             repertoire?.GetSlotsNumber(5, out remaining, out _);
 
             return remaining > 0 && rulesetCharacter.GetRemainingPowerUses(powerToRecharge) == 0;
+        }
+    }
+
+    internal static void SwitchPaladinAnyFightingStyle()
+    {
+        var fightingStyles = FightingStylePaladin.FightingStyles;
+        
+        fightingStyles.Remove("TwoWeapon");
+        fightingStyles.Remove("Archery");
+
+        if (Main.Settings.EnablePaladinAnyFightingStyle2024)
+        {
+            fightingStyles.TryAdd("TwoWeapon");
+            fightingStyles.TryAdd("Archery");
         }
     }
 }

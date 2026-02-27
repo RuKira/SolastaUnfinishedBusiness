@@ -1,7 +1,6 @@
 ModUI/&EnableChanceToPerceiveCloseRange=<i>+ rolará para a percepção de alvos dentro de 10 pés quando não percebido </i>
 ModUI/&EnableCriticalHitsMissesAt10=Ativar sucessos e erros críticos quando a diferença entre o resultado do rolo de ataque AC e o ataque é 10 ou mais
 ModUI/&EnableDamageOnFailedJumpCheck=Aplica 1d4 Danos em verificações de salto falhas
-ModUI/&EnableShotInDarknessPenalties=<i>+ aplicará penalidades de modificador de ataque por ataques à distância a não percebidos </i>
 ModUI/&ModVersionControl=-Nfinishished Business Mod Version Configurações-
 ModUI/&ModifyJumpRulesForArmorAndEncumberance=Aplique as multas e as penalidades da armadura para saltar
 ModUI/&ModifyThrowingRulesForStrength=Aplique penalidades de arremesso ao alcance por falta de força
@@ -40,6 +39,7 @@ ModUi/&AllowMoreRealStateOnRestPanel=Permitir mais estado real no painel de desc
 ModUi/&AllowStackedMaterialComponent=Permitir componente de material empilhado <i><color=#F0DAA0>[por exemplo, 2x500gp diamante é equivalente a 1000gp diamante]</color></i>
 ModUi/&AllowTargetingSelectionWhenCastingChainLightningSpell=Permitir seleção de alvo ao conjurar o feitiço <color=#D89555>Chain Lightning</color>
 ModUi/&AltOnlyHighlightItemsInPartyFieldOfView=A tecla <color=#1E81B0>ALT</color> destaca apenas os gadgets no campo de visão do grupo <i><color=#F0DAA0>[apenas masmorras personalizadas]</color></i>
+ModUi/&AlwaysSpendPactSlotsFirst=<i>+ Sempre gaste primeiro os espaços do pacto do <color=#D89555>Warlock</color>, se possível</i>
 ModUi/&ArcaneShieldstaffOptions=Permitir que <color=#D89555>Arcane Shieldstaff</color> seja sintonizado por qualquer classe
 ModUi/&Backgrounds=<color=#F0DAA0>Fundos</color>
 ModUi/&BackgroundsAndRaces=Origens e Raças
@@ -49,6 +49,7 @@ ModUi/&BestowCurseNoConcentrationRequiredForSlotLevel5OrAbove=<color=#D89555>Con
 ModUi/&BlindedConditionDontAllowAttackOfOpportunity=Evitar ataques de oportunidade quando o alvo não é percebido
 ModUi/&Blueprints=Projetos
 ModUi/&Campaigns=Campanhas
+ModUi/&Cancel=Cancelar
 ModUi/&Category=Categoria
 ModUi/&ChangeDragonbornElementalBreathUsages=Alterar usos de sopro elemental de <color=#D89555>Dragonborn</color> para modificador CON por descanso curto
 ModUi/&ChangeSleetStormToCube=Alterar <color=#D89555>Sleet Storm</color> para usar um cubo em vez de um cilindro
@@ -186,6 +187,8 @@ ModUi/&EnableMonkSuperiorDefense2024=Habilitar <color=#D89555>Defesa Superior</c
 ModUi/&EnableMonkUncannyMetabolism2024=Habilitar <color=#D89555>Metabolismo Sobrenatural</color> no nível 2 <i><color=#F0DAA0>[recupera Ki e HP na jogada de iniciativa]</color></i>
 ModUi/&EnableMulticlass=Habilitar <color=#D89555>multiclasse</color> <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>
 ModUi/&EnableOneDndBarkskinSpell=Habilitar <color=#D89555>Barkskin</color> versão de magia 5e 2024 <i><color=#F0DAA0>[ação bônus, sem concentração, CA definida como 17]</color></i>
+ModUi/&EnableOneDndBladeWardCantrip=Enable <color =#d89555> lâmina da ala </ro Color> cantrip 5e 2024 versão <i> <color =#f0daa0> [concentração de 1 minuto, os atacantes subtraem 1d4 de rolos de ataque] </ro Color> </i>
+ModUi/&EnableOneDndChillTouchCantrip=Habilite <color=#D89555>Chill Touch</color> 5e 2024 cantrip versão <i><color=#F0DAA0>[dado de dano D10 em vez de D8, golpe corpo a corpo em vez de 24 alcance]</color></i>
 ModUi/&EnableOneDndDamagingSpellsUpgrade=Habilitar <color=#D89555>Arcane Sword</color>, <color=#D89555>Circle of Death</color>, <color=#D89555>Flame Strike</color>, <color=#D89555>Ice Storm</color>, <color=#D89555>Prismatic Spray</color> e <color=#D89555>Vicious Mockery</color> versão de magias 5e 2024 <i><color=#F0DAA0>[melhor dano]</color></i>
 ModUi/&EnableOneDndDivineFavorSpell=Habilitar <color=#D89555>Favor Divino</color> versão de magia 5e 2024 <i><color=#F0DAA0>[sem concentração]</color></i>
 ModUi/&EnableOneDndGuidanceSpell=Habilitar <color=#D89555>Orientação</color> versão de magia 5e 2024 <i><color=#F0DAA0>[Escolha uma habilidade na conjuração e ganhe bônus por até 1 minuto.]</color></i>
@@ -199,12 +202,15 @@ ModUi/&EnableOneDndSpareTheDyingSpell=Habilitar <color=#D89555>Poupar os Moribun
 ModUi/&EnableOneDndSpiderClimbSpell=Habilitar <color=#D89555>Escalada de Aranha</color> versão de magia 5e 2024 <i><color=#F0DAA0>[+1 alvo por upcast]</color></i>
 ModUi/&EnableOneDndStoneSkinSpell=Habilitar <color=#D89555>Stone Skin</color> versão de magia 5e 2024 <i><color=#F0DAA0>[fornece resistência a B/P/S mágicos também]</color></i>
 ModUi/&EnableOneDndTrueStrikeCantrip=Habilitar <color=#D89555>True Strike</color> versão 5e 2024 do truque <b><i><color=#C04040E0>[Requer reinicialização]</color></i></b>\n<i><color=#F0DAA0>[o ataque usa sua habilidade de conjuração para a jogada de ataque e bônus de dano, além de dano radiante adicional do nível 5]</color></i>
+ModUi/&EnableOneDndWitchBoltSpell=Ativar <color=#D89555>Witch Bolt</color> versão do feitiço 5e 2024 <i><color=#F0DAA0>[Ação bônus para reaplicar dano]</color></i>
+ModUi/&EnableOutOfCombatTargetingSightLines=Habilite linhas de visão em direção a inimigos visíveis ao mirar fora de combate
 ModUi/&EnablePaladinAbjureFoes2024=Habilitar <color=#D89555>Abjure Foes</color> no nível 9
+ModUi/&EnablePaladinAnyFightingStyle2024=Permitir que <color=#D89555>Paladino</color> escolha qualquer estilo de luta <i><color=#F0DAA0>[adiciona Arquearia e Luta com Duas Armas]</color></i>
 ModUi/&EnablePaladinChannelDivinity2024=Troque <color=#D89555>Channel Divinity</color> pela versão 5e 2024 <i><color=#F0DAA0>[usos diferentes]</color></i>
 ModUi/&EnablePaladinLayOnHands2024=Troque <color=#D89555>Lay on Hands</color> pela versão 5e 2024 <i><color=#F0DAA0>[ação bônus]</color></i>
 ModUi/&EnablePaladinRestoreLevel20Feature=Habilitar poderes de subclasse <color=#D89555>Nível 20</color> para recarregar com um slot de nível 5
 ModUi/&EnablePaladinRestoringTouch2024=Habilite <color=#D89555>Restaurando o Toque</color> para substituir <color=#D89555>Toque de Limpeza</color> no nível 14
-ModUi/&EnablePaladinSmite2024=Troque <color=#D89555>Divine Smite</color> pela versão 5e 2024 <i><color=#F0DAA0>[ação bônus]</color></i>
+ModUi/&EnablePaladinSmite2024=Trocar <color=#D89555>Divine Smite</color> pela versão 5e 2024 <i><color=#F0DAA0>[ação bônus]</color></i>
 ModUi/&EnablePaladinSpellCastingAtLevel1=Habilitar <color=#D89555>conjuração de feitiços</color> no nível 1 em vez de 2
 ModUi/&EnablePcgRandom=Habilitar um algoritmo de gerador aleatório melhor <i><color=#F0DAA0>[https://www.pcg-random.org]</color></i>
 ModUi/&EnablePoisonsBonusAction2024=Habilitar a aplicação de <color=#D89555>Venenos</color> em armas como uma ação bônus
@@ -212,6 +218,7 @@ ModUi/&EnablePotionsBonusAction2024=Habilitar beber <color=#D89555>Poções</col
 ModUi/&EnablePreparedSpellsTables2024=Permitir que todos os <color=#D89555>Conjuradores</color> usem novas tabelas de magias preparadas <i><color=#F0DAA0>[Bardo, Clérigo, Druida, Paladino, Patrulheiro, Feiticeiro, Mago]</color></i>
 ModUi/&EnableProneAction=Habilite a ação <color=#D89555>Cair de bruços</color> <i><color=#F0DAA0>[você pode cair de bruços sem nenhum custo]</color></i>
 ModUi/&EnablePullPushOnVerticalDirection=Habilitar efeitos de movimento de empurrar e puxar para também funcionarem no eixo para cima/baixo
+ModUi/&EnableRangerAnyFightingStyle2024=Permitir que <color=#D89555>Patrulheiro</color> escolha qualquer estilo de luta <i><color=#F0DAA0>[adiciona Luta com Arma Grande e Proteção]</color></i>
 ModUi/&EnableRangerDeftExplorer2024=Habilite <color=#D89555>Explorador Hábil</color> no nível 2 <i><color=#F0DAA0>[obtenha uma especialização em habilidades de Patrulheiro e aprenda 2 idiomas]</color></i>
 ModUi/&EnableRangerExpertise2024=Habilite <color=#D89555>Expertise</color> no nível 9 <i><color=#F0DAA0>[obtenha duas expertises em habilidades de Ranger]</color></i>
 ModUi/&EnableRangerFavoredEnemy2024=Troque <color=#D89555>Inimigo Favorito</color> e <color=#D89555>Terreno Favorito</color> por <color=#D89555>Inimigo Favorito</color> versão 5e 2024
@@ -237,6 +244,7 @@ ModUi/&EnableScimitarSpecialization=Conceder Cimitarra <color=#D89555>Especializ
 ModUi/&EnableSignatureSpellsRelearn=Habilitar <color=#D89555>Feitiços de Assinatura</color> para serem preparados a cada descanso longo <i><color=#F0DAA0>[em vez de uma vez no nível 20]</color></i>
 ModUi/&EnableSmiteSpells2024=Swap smite feitiços com 5e 2024 versão <i> <color =#f0daa0> [gatilho no acerto e não requer concentração] </ro Color> </i>
 ModUi/&EnableSorcererArcaneApotheosis2024=Habilitar <color=#D89555>Apoteose Arcana</color> para substituir <color=#D89555>Restauração Feiticeira</color> no nível 20
+ModUi/&EnableSorcererDraconicBloodlineAC2024=Ative a versão 2024 da <color=#D89555>Resiliência Dracônica</color> de <color=#D89555>Linhagem Dracônica</color> <i><color=#F0DAA0>[10+DEX+CHA em vez de 13+DEX]</color></i>
 ModUi/&EnableSorcererInnateSorcery2024=Habilitar <color=#D89555>Feitiçaria Inata</color> e <color=#D89555>Feitiçaria Encarnada</color> nos níveis 1 e 7
 ModUi/&EnableSorcererMagicalGuidance=Habilitar <color=#D89555>Orientação Mágica</color> no nível 5
 ModUi/&EnableSorcererMetamagic2024=Habilitar <color=#D89555>Metamagic</color> no nível 2 em vez de 3
@@ -272,6 +280,8 @@ ModUi/&EnablesAsiAndFeat=Habilitar aumento de pontuação de atributos e seleç�
 ModUi/&EncounterPercentageChance=<color=white>Defina chances percentuais de encontros aleatórios</color>
 ModUi/&Encounters=Encontros
 ModUi/&EnemiesAlwaysRollInitiative=<i>+ Os inimigos sempre rolam a iniciativa em vez de um valor forçado <color=#F0DAA0>[por exemplo: Sorak Assassin]</color></i>
+ModUi/&EnemySpellcastersDropScribedSpellbooks=Conjuradores inimigos deixam cair livros de feitiços escritos <i><color=#F0DAA0>[contém seus feitiços conhecidos da lista de magos]</color></i>
+ModUi/&EvocationSculptSpellNoPerception=Faça com que <b>Evoker</b> <color=#D89555>Esculpir Feitiços</color> não exija a percepção de aliados
 ModUi/&ExpandAll=Expandir tudo
 ModUi/&FactionHelp=<color=#C04040E0>Carregue um jogo de campanha oficial para modificar as relações de facção...</color>
 ModUi/&FactionRelations=<color=#F0DAA0>Facções:</color>
@@ -313,6 +323,7 @@ ModUi/&Items=<color=#F0DAA0>Itens:</color>
 ModUi/&ItemsHelp1=<color=#C04040E0>Abra a tela de inspeção de personagem para adicionar itens aos heróis...</color>
 ModUi/&ItemsHelp2=<b>Pressione + para adicionar itens ao contêiner terrestre</b>
 ModUi/&KeepInvisibilityWhenUsingItems=Habilitar o uso do item sem quebrar <color=#D89555>Invisibilidade</color>
+ModUi/&LearnAllScrollRecipes=Aprenda todas as receitas de criação de pergaminhos do jogo básico <i><color=#F0DAA0>[ainda é necessário ter proficiência no kit de pergaminhos e saber o feitiço para criar]</color></i>
 ModUi/&LegendaryTweaksDetails=Aqui você pode mudar o tipo de arma de armas lendárias. Para a segurança, faça isso enquanto a arma não estiver equipada.
 ModUi/&LegendaryTweaksTitle=<color =#f0daa0> Tweaks lendários: </color>
 ModUi/&MakeAllMagicStaveArcaneFoci=Faça todos os cajados mágicos focos arcanos <i><color=#F0DAA0>[exceto <color=#D89555>Cajado de Cura</color> que é Universal]</color></i>
@@ -327,6 +338,8 @@ ModUi/&MulticlassKeyHelp=<color=#1E81B0>SHIFT</color> clicar em uma magia invert
 ModUi/&Multiplayer=<color=#F0DAA0>Multijogador:</color>
 ModUi/&MultiplyTheExperienceGainedBy=<color=white>Multiplique a experiência adquirida por</color> <color=#C04040E0>[%]</color>
 ModUi/&NeverMoveCameraOnEnemyTurn=<i>+ A câmera nunca se move durante os turnos do inimigo</i>
+ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed=<i>+ Usar armas e armaduras básicas como ingredientes em vez das versões Primed</i> <b><i><color=#C04040E0>[Requer Reinício]</color></i></b>
+ModUi/&NewWeaponsAndRecipesSimplified=<i>+ Usar receitas simples e unificadas <color=#F0DAA0>[somente ingredientes básicos, não afeta itens personalizados de campanhas]</color></i> <b><i><color=#C04040E0>[Requer Reinício]</color></i></b>
 ModUi/&NoExperienceOnLevelUp=Não é necessária experiência para subir de nível
 ModUi/&OfficialObscurementRulesCancelAdvDisPairs=<i>+ Cancelar <color=#D89555>vantagem / desvantagem</color> pares cegos, invisíveis e percebidos <color=#F0DAA0>[útil em conjunto com as regras oficiais de <color=#D89555>vantagem / desvantagem</color>]</color></i>
 ModUi/&OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker=<i>+ Alterar áreas <color=#D89555>fortemente obscurecidas</color> para serem bloqueadores de projéteis <color=#F0DAA0>[<color=#D89555>Nuvem Mortal</color>, <color=#D89555>Nuvem de Névoa</color>, <color=#D89555>Nuvem Incendiária</color>, <color=#D89555>Tempestade de Pétalas</color>, <color=#D89555>Tempestade de Granizo</color>, <color=#D89555>Nuvem Fedorenta</color>]</color></i>
@@ -336,11 +349,23 @@ ModUi/&OfficialObscurementRulesTweakMonsters=<i>+ Adicione <color=#D89555>Visão
 ModUi/&OfficialObscurementRulesTweakMonstersHelp=<i><color=#F0DAA0>[configurações de coleções <b>MonstrosQueDeveriamTerVisãoNoEscuro</b>, <b>MonstrosQueDeveriamTerVisãoVerdadeira</b>, <b>MonstrosQueDeveriamTerVisãoCega</b>]</color></i>
 ModUi/&OneDnd=<color=#F0DAA0>Mesa <i>[5e 2024]</i>:</color>
 ModUi/&OnlyShowMostPowerfulUpcastConjuredElementalOrFey=<i>+ Mostrar apenas as criaturas mais poderosas na lista de conjuração</i>
+ModUi/&OpenAIAdvancedSettings=<color=#F0DAA0>Configurações Avançadas:</color>
+ModUi/&OpenAIApiKey=Chave da API
+ModUi/&OpenAIDefaultSystemPrompt=Você é um tradutor profissional. Traduza o texto a seguir para {targetLanguage}. Mantenha a formatação original, preserve quaisquer caracteres especiais ou marcações. Forneça apenas o texto traduzido, nada mais.
+ModUi/&OpenAIEndpoint=URL do Endpoint
+ModUi/&OpenAIModel=Modelo
+ModUi/&OpenAISettings=<color=#F0DAA0>Configurações da OpenAI:</color>
+ModUi/&OpenAISystemPrompt=Prompt do Sistema
+ModUi/&OpenAISystemPromptHelp=<i><color=#F0DAA0>[Use {targetLanguage} como marcador para o nome do idioma de destino]</color></i>
+ModUi/&OpenAITemperature=Temperatura
+ModUi/&OpenAITopK=Top K
+ModUi/&OpenAITopP=Top P
 ModUi/&OutlineGridWidthModifier=<color=white>Multiplique a largura da grade de contorno por</color> <color=#C04040E0>[%]</color>
 ModUi/&OutlineGridWidthSpeed=<color=white>Multiplique a velocidade da animação da grade de contorno por</color> <color=#C04040E0>[%]</color>
 ModUi/&OverrideMinMaxLevel=Substitua os níveis mínimo e máximo necessários ao iniciar novas aventuras
 ModUi/&OverridePartySize=<color=white>Substituir o tamanho do grupo</color>
 ModUi/&Patches=<color=#F0DAA0>Correções:</color>
+ModUi/&Pause=Pausar
 ModUi/&PortraitsOpenFolder=Abrir pasta de retratos
 ModUi/&PrimedItems=Itens preparados
 ModUi/&QuickCastLightCantripOnWornItemsFirst=Habilite o lançamento rápido <color=#D89555>Light Cantrip</color> para usar itens usados na cabeça, pescoço ou tronco primeiro
@@ -358,11 +383,14 @@ ModUi/&RemoveRecurringEffectOnEntangle=Aplique o efeito <color=#D89555>Entangle<
 ModUi/&RemoveRogueBlindSense2024=Remova <color=#D89555>Sentido Cego</color> no nível 14
 ModUi/&RemoveSchoolRestrictionsFromShadowCaster=Remover restrições escolares de <b>Shadowcaster</b>
 ModUi/&RemoveSchoolRestrictionsFromSpellBlade=Remover restrições escolares de <b>Spellblade</b>
+ModUi/&Reset=Redefinir
 ModUi/&RestockAntiquarians=Reabastecer Antiquários <i><color=#F0DAA0>[Verão Halman]</color></i>
 ModUi/&RestockArcaneum=Reabastecer Arcaneum <i><color=#F0DAA0>[Heddlon Surespell]</color></i>
 ModUi/&RestockCircleOfDanantar=Reabastecer Círculo de Danantar <i><color=#F0DAA0>[Joriel Foxeye]</color></i>
 ModUi/&RestockHelp=• Substituir padrões para forçar o estoque de todos os comerciantes a reabastecer ao longo do tempo <i><color=#F0DAA0>[excluindo Manuais e Tomos]</color></i>\n• Observe que alguns itens podem levar até 7 dias de jogo para reabastecer
 ModUi/&RestockTowerOfKnowledge=Reabastecer Torre do Conhecimento <i><color=#F0DAA0>[Maddy Greenisle]</color></i>
+ModUi/&Resume=Retomar
+ModUi/&RetryFailed=Tentar Novamente
 ModUi/&Rollback=<b><color=#D89555>Reverter</color></b>
 ModUi/&Rules=Regras
 ModUi/&ScaleMerchantPricesCorrectly=Dimensione os preços dos comerciantes corretamente / exatamente <i><color=#F0DAA0>[não há mais erros de arredondamento ao converter valores de moedas]</color></i>
@@ -380,11 +408,13 @@ ModUi/&SettingsOpenFolder=Abrir pasta de configurações exportadas
 ModUi/&SettingsRefresh=Atualizar
 ModUi/&SettingsRemove=Remover
 ModUi/&ShowButtonWithControlledMonsterInfo=Mostrar botão que abre informações sobre monstros controlados <i><color=#F0DAA0>[druidas de formato selvagem, invocações, seguidores de NPCs, etc.]</color></i>
+ModUi/&ShowCategoryProgress=Mostrar Progresso da Categoria
 ModUi/&ShowChannelDivinityOnPortrait=Mostre quantos usos de <color=#D89555>Canalizar Divindade</color> um herói tem em seu retrato, semelhante a pontos de feitiçaria
 ModUi/&ShowCraftedItemOnRecipeIcon=Mostrar ícone de item criado próximo ao item de receita na loja e no inventário <i><color=#F0DAA0>[Passar o mouse sobre ele mostrará a dica de ferramenta para o item criado]</color></i>
 ModUi/&ShowCraftingRecipeInDetailedTooltips=Mostrar receita de criação em dicas de ferramentas detalhadas
 ModUi/&ShowDescriptions=Mostrar descrições
 ModUi/&ShowMotionFormPreview=Mostrar pré-visualização dos efeitos <b>Push</b> e <b>Pull</b>
+ModUi/&ShowTranslationPreview=Mostrar Traduções Recentes
 ModUi/&SpeechScale=<color=white>Modificador de velocidade de narração</color> <i><color=#F0DAA0>[menor é mais rápido]</color></i>
 ModUi/&SpeechVolume=<color=white>Volume da narração</color>
 ModUi/&SpellLevelFilter=<b><i><color=white>filtro de nível de magia</color> <color=#F0DAA0>[-1 exibe tudo]</color></i></b>
@@ -418,6 +448,18 @@ ModUi/&TotalCraftingTimeModifier=<color=white>Reduza o tempo de criação em</co
 ModUi/&TotalFeatsGrantedFirstLevel=<color=white>Total de <color=#D89555>talentos</color> concedidos no primeiro nível</color>
 ModUi/&Translate=Traduzir
 ModUi/&TranslateCancel=Cancelar {0} em {1}
+ModUi/&TranslatingConcurrent=Traduzindo
+ModUi/&TranslationCancelled=Cancelado
+ModUi/&TranslationCompleted=Concluído
+ModUi/&TranslationCompletedWithErrors=Concluído (com erros)
+ModUi/&TranslationConcurrency=Concorrência
+ModUi/&TranslationFailed=Falhou
+ModUi/&TranslationGoogleLegacyMode=Use o modo legado para solicitar traduções da API do Google Tradutor
+ModUi/&TranslationGoogleSettings=Configurações da API do Google
+ModUi/&TranslationPaused=Pausado
+ModUi/&TranslationProgress=Progresso
+ModUi/&TranslationService=Serviço de Tradução
+ModUi/&TranslationServiceNotConfigured={0} não está configurado!
 ModUi/&Translations=<color=#F0DAA0>Traduções:</color>
 ModUi/&UnityExplorer=<b><color=#D89555>IU do Unity Explorer</color></b>
 ModUi/&UnleashEnemyAsNpc=Permitir que monstros sejam selecionados em gadgets de NPC
@@ -438,14 +480,17 @@ ModUi/&UseOfficialObscurementRules=Habilitar regras de combate de <color=#D89555
 ModUi/&UseOfficialObscurementRulesHelp=<i><color=#F0DAA0>[atacante que percebe um defensor que não consegue percebê-lo recebe ADV, e atacante que não percebe um defensor que consegue percebê-lo recebe DIS\n áreas muito obscurecidas infligem condição de cegueira, onde jogadas de ataque contra a criatura têm ADV, e as jogadas de ataque da criatura têm DIS\n todas as magias de distância que tenham como alvo indivíduos não podem ser lançadas se o atacante não tiver visão, exceto aquelas que claramente não declaram que a visão é necessária]</color></i>
 ModUi/&UseOfficialSmallRacesDisWithHeavyWeapons=Habilitar <color=#D89555>pequenas raças</color> têm desvantagem ao empunhar armas pesadas
 ModUi/&UseOldOfficialFlankingRules=<i> + A antiga regra de flanqueamento era apenas +2 para atacar o rolo. Acima do flanqueamento mais regra do modificador, tenha precedência </i>
+ModUi/&UseWeaponMasteryMonkWayOfBlade=<i>+ Conceda 2 escolhas de domínio de armas para a subclasse Way of Blade Monk</i>
 ModUi/&UseWeaponMasterySystem=Habilitar regras de <color=#D89555>Maestria em Armas</color>
 ModUi/&UseWeaponMasterySystemAddCleaveDamage=<i>+ Domínio de Fenda adiciona modificador de pontuação de atributo ao dano do segundo ataque</i>
 ModUi/&UseWeaponMasterySystemAddWeaponTag=<i>+ Adicionar tag de maestria a todas as armas do jogo</i>
 ModUi/&UseWeaponMasterySystemAlternateProperties=<i>+ Propriedades alternativas da arma para representar propriedades da vida real de uma pequena pesquisa. "VEX" em Shortbow não faz sentido <b> <i> <color =#c04040e0> [requer reinicialização] </color> </i> </b> </i>
 ModUi/&UseWeaponMasterySystemFlurryTriggersMastery=<i>+ Ataque extra de Dual Flurry pode desencadear outra maestria</i>
+ModUi/&UseWeaponMasterySystemNickDualFlurry=<i>+ Ataque extra de maestria de Nick pode desencadear Dual Flurry</i>
 ModUi/&UseWeaponMasterySystemNickExtraAttackTriggersMastery=<i>+ Ataque extra de maestria de Nick pode desencadear outra maestria</i>
 ModUi/&UseWeaponMasterySystemPushSave=<i>+ A maestria em empurrar requer que a criatura faça um teste de resistência de Força (CD 8 + modificador de habilidade de ataque + Bônus de Proficiência)</i>
 ModUi/&WeaponMasterySystemCustomizeResetAll=Redefinir tudo
 ModUi/&WeaponMasterySystemCustomizeResetAllWarning=Redefinirá todas as propriedades do domínio das armas para o padrão
 ModUi/&WeaponMasterySystemCustomizeToggle=Personalize propriedades de domínio das armas
+ModUi/&WideScreenBattleUI=Ativar interface de batalha wide-screen <i><color=#F0DAA0>(Para resoluções com proporção superior à 16:9)</color></i>
 ModUi/&WildSurgeDieRollThreshold=<color=white>Definir limite de dado de chance de <color=#D89555>Magia Selvagem do Feiticeiro</color>:</color>\n<i><color=#F0DAA0>[onda selvagem é acionada se a rolagem for menor ou igual ao limite]</color></i>

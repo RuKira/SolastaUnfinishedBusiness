@@ -47,9 +47,6 @@ internal static class OtherFeats
 
     internal static void CreateFeats([NotNull] List<FeatDefinition> feats)
     {
-        // kept for backward compatibility
-        BuildWeaponMastery();
-
         var featAcrobat = BuildAcrobat();
         var featArcaneArcherAdept = BuildArcaneArcherAdept();
         var featBrawler = BuildBrawler();
@@ -82,6 +79,7 @@ internal static class OtherFeats
         var elementalMasterGroup = BuildElementalMaster(feats);
         var giftOfTheGemDragonGroup = BuildGiftOfTheGemDragon(feats);
         var weaponMasterGroup = BuildWeaponMaster(feats);
+        var weaponMasteryGroup = BuildWeaponMastery(feats);
 
         var featMerciless = BuildMerciless();
         var featPolearmExpert = BuildPolearmExpert();
@@ -166,7 +164,8 @@ internal static class OtherFeats
             featRopeIpUp,
             featSentinel,
             giftOfTheGemDragonGroup,
-            weaponMasterGroup);
+            weaponMasterGroup,
+            weaponMasteryGroup);
 
         GroupFeats.FeatGroupUnarmoredCombat.AddFeats(
             FeatPoisonousSkin);
@@ -188,7 +187,8 @@ internal static class OtherFeats
             featMartialAdept,
             featMetamagicAdept,
             featMonkInitiate,
-            featVersatilityAdept);
+            featVersatilityAdept,
+            weaponMasteryGroup);
     }
 
     #region Arcane Archer Adept
@@ -547,19 +547,34 @@ internal static class OtherFeats
 
     #region Weapon Mastery
 
-    private static void BuildWeaponMastery()
+    private static FeatDefinition BuildWeaponMastery(List<FeatDefinition> feats)
     {
         const string Name = "FeatWeaponMastery";
 
-        _ = FeatDefinitionBuilder
+        var weaponMasterStr = FeatDefinitionBuilder
             .Create($"{Name}Str")
-            .SetGuiPresentation(Category.Feat, hidden: true)
+            .SetGuiPresentation(Category.Feat)
+            .SetFeatures(AttributeModifierCreed_Of_Einar,
+                Tabletop2024Context.PowerWeaponMasteryRelearnPool,
+                Tabletop2024Context.PowerWeaponMasteryRelearn,
+                Tabletop2024Context.FeatWeaponMasteryLearn1)
+            .SetFeatFamily(Name)
             .AddToDB();
 
-        _ = FeatDefinitionBuilder
+        var weaponMasterDex = FeatDefinitionBuilder
             .Create($"{Name}Dex")
-            .SetGuiPresentation(Category.Feat, hidden: true)
+            .SetGuiPresentation(Category.Feat)
+            .SetFeatures(AttributeModifierCreed_Of_Misaye,
+                Tabletop2024Context.PowerWeaponMasteryRelearnPool,
+                Tabletop2024Context.PowerWeaponMasteryRelearn,
+                Tabletop2024Context.FeatWeaponMasteryLearn1)
+            .SetFeatFamily(Name)
             .AddToDB();
+
+        feats.AddRange(weaponMasterStr, weaponMasterDex);
+
+        return GroupFeats.MakeGroup(
+            "FeatGroupWeaponMastery", Name, weaponMasterStr, weaponMasterDex);
     }
 
     #endregion
@@ -1040,13 +1055,14 @@ internal static class OtherFeats
             int damageAmount)
         {
             var rulesetAttacker = attacker.RulesetCharacter;
+            var rulesetDefender = defender.RulesetCharacter;
 
             if (rollOutcome is not (RollOutcome.Success or RollOutcome.CriticalSuccess) ||
                 !ValidatorsWeapon.IsUnarmed(attackMode) ||
-                defender.RulesetCharacter is not { IsDeadOrDyingOrUnconscious: false } ||
+                rulesetDefender is not { IsDeadOrDyingOrUnconscious: false } ||
                 !rulesetAttacker.IsToggleEnabled((Id)ExtraActionId.GrappleOnUnarmedToggle) ||
-                attacker.GetSpecialFeatureUses(FeatGrappler.Name) >= 0 || 
-                GrappleContext.HasGrappleImmunity(defender.RulesetCharacter))
+                attacker.GetSpecialFeatureUses(FeatGrappler.Name) >= 0 ||
+                GrappleContext.CantGrapple(rulesetAttacker, rulesetDefender))
             {
                 yield break;
             }
@@ -1103,7 +1119,6 @@ internal static class OtherFeats
         if (rulesetHero == null ||
             !rulesetHero.TrainedFeats.Contains(FeatStealthy))
         {
-
             return;
         }
 
@@ -1411,7 +1426,7 @@ internal static class OtherFeats
             bool firstTarget,
             bool criticalHit)
         {
-            if (!firstTarget ||
+            if (defender.RulesetActor is not RulesetCharacter ||
                 !rulesetEffect.EffectDescription.HasFormOfType(EffectForm.EffectFormType.Damage))
             {
                 yield break;
@@ -1643,7 +1658,7 @@ internal static class OtherFeats
             var actingCharacter = action.ActingCharacter;
             var rulesetCharacter = actingCharacter.RulesetCharacter;
             var actionModifier = new ActionModifier();
-            var abilityCheckRoll = actingCharacter.RollAbilityCheck(
+            var abilityCheckRoll = actingCharacter.RollAbilityCheckEx(
                 AttributeDefinitions.Dexterity,
                 SkillDefinitions.Acrobatics,
                 15,
@@ -1652,6 +1667,7 @@ internal static class OtherFeats
                 false, -1,
                 out var rollOutcome,
                 out var successDelta,
+                out var rawRoll,
                 true);
 
             //PATCH: support for Bardic Inspiration roll off battle and ITryAlterOutcomeAttributeCheck
@@ -1665,7 +1681,7 @@ internal static class OtherFeats
             };
 
             yield return TryAlterOutcomeAttributeCheck
-                .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData);
+                .HandleITryAlterOutcomeAttributeCheck(actingCharacter, abilityCheckData, rawRoll);
 
             if (abilityCheckData.AbilityCheckRollOutcome is RollOutcome.Success or RollOutcome.CriticalSuccess)
             {
@@ -2043,7 +2059,7 @@ internal static class OtherFeats
     {
         var feat = FeatDefinitionWithPrerequisitesBuilder
             .Create($"Feat{fightingStyle.Name}")
-            .SetGuiPresentation(fightingStyle.GuiPresentation)
+            .SetGuiPresentation(new GuiPresentation(fightingStyle.GuiPresentation))
             .SetFeatures(
                 FeatureDefinitionProficiencyBuilder
                     .Create($"ProficiencyFeat{fightingStyle.Name}")
@@ -2053,6 +2069,8 @@ internal static class OtherFeats
             .SetFeatFamily(GroupFeats.FightingStyle)
             .SetValidators(ValidatorsFeat.ValidateNotFightingStyle(fightingStyle))
             .AddToDB();
+
+        feat.GuiPresentation.hidden = FightingStyleContext.HideFightingStyle(fightingStyle);
 
         // supports custom pools [only superior technique now]
         feat.Features.AddRange(fightingStyle.Features.OfType<FeatureDefinitionCustomInvocationPool>());
@@ -2514,6 +2532,7 @@ internal static class OtherFeats
 
         public IEnumerator OnTryAlterAttributeCheck(
             GameLocationBattleManager battleManager,
+            int rawRoll,
             AbilityCheckData abilityCheckData,
             GameLocationCharacter defender,
             GameLocationCharacter helper)
@@ -2521,7 +2540,7 @@ internal static class OtherFeats
             var rulesetHelper = helper.RulesetCharacter;
             var usablePower = PowerProvider.Get(powerLucky, rulesetHelper);
 
-            if (abilityCheckData.AbilityCheckRoll == 0 ||
+            if (rawRoll == 0 ||
                 abilityCheckData.AbilityCheckRollOutcome is not (RollOutcome.Failure or RollOutcome.CriticalFailure) ||
                 helper != defender ||
                 rulesetHelper.GetRemainingUsesOfPower(usablePower) == 0)
@@ -2545,9 +2564,8 @@ internal static class OtherFeats
 
                 var dieRoll = rulesetHelper.RollDie(DieType.D20, RollContext.None, false, AdvantageType.None, out _,
                     out _);
-                var previousRoll = abilityCheckData.AbilityCheckRoll;
 
-                if (dieRoll <= abilityCheckData.AbilityCheckRoll)
+                if (dieRoll <= rawRoll)
                 {
                     rulesetHelper.LogCharacterActivatesAbility(
                         "Feat/&FeatLuckyTitle",
@@ -2555,27 +2573,34 @@ internal static class OtherFeats
                         extra:
                         [
                             (ConsoleStyleDuplet.ParameterType.Negative, dieRoll.ToString()),
-                            (ConsoleStyleDuplet.ParameterType.Positive, abilityCheckData.AbilityCheckRoll.ToString())
+                            (ConsoleStyleDuplet.ParameterType.Positive, rawRoll.ToString())
                         ]);
 
                     return;
                 }
 
-                abilityCheckData.AbilityCheckSuccessDelta += dieRoll - abilityCheckData.AbilityCheckRoll;
-                abilityCheckData.AbilityCheckRoll = dieRoll;
+                var delta = dieRoll - rawRoll;
+                abilityCheckData.AbilityCheckSuccessDelta += delta;
+                abilityCheckData.AbilityCheckRoll += delta;
                 abilityCheckData.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckSuccessDelta >= 0
                     ? RollOutcome.Success
                     : RollOutcome.Failure;
 
+                var totalRoll = abilityCheckData.AbilityCheckRoll.ToString();
                 rulesetHelper.LogCharacterActivatesAbility(
                     "Feat/&FeatLuckyTitle",
                     "Feedback/&LuckyCheckToHitRoll",
                     extra:
                     [
-                        (dieRoll > previousRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                        (dieRoll > rawRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
                             dieRoll.ToString()),
-                        (previousRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
-                            previousRoll.ToString())
+                        (rawRoll > dieRoll ? ConsoleStyleDuplet.ParameterType.Positive : ConsoleStyleDuplet.ParameterType.Negative,
+                            rawRoll.ToString()),
+                        abilityCheckData.AbilityCheckRollOutcome == RollOutcome.Success
+                            ? (ConsoleStyleDuplet.ParameterType.SuccessfulRoll,
+                                Gui.Format(GameConsole.AbilityCheckSuccessOutcome, totalRoll))
+                            : (ConsoleStyleDuplet.ParameterType.FailedRoll,
+                                Gui.Format(GameConsole.AbilityCheckFailureOutcome, totalRoll))
                     ]);
             }
         }

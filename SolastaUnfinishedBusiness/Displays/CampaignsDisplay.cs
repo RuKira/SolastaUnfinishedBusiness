@@ -85,6 +85,12 @@ internal static class CampaignsDisplay
             }
         }
 
+        toggle = Main.Settings.EnemySpellcastersDropScribedSpellbooks;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnemySpellcastersDropScribedSpellbooks"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnemySpellcastersDropScribedSpellbooks = toggle;
+        }
+
         UI.Label();
 
         toggle = Main.Settings.AltOnlyHighlightItemsInPartyFieldOfView;
@@ -117,6 +123,12 @@ internal static class CampaignsDisplay
         if (UI.Toggle(Gui.Localize("ModUi/&HideExitAndTeleporterGizmosIfNotDiscovered"), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.HideExitsAndTeleportersGizmosIfNotDiscovered = toggle;
+        }
+
+        toggle = Main.Settings.EnableOutOfCombatTargetingSightLines;
+        if (UI.Toggle(Gui.Localize("ModUi/&EnableOutOfCombatTargetingSightLines"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.EnableOutOfCombatTargetingSightLines = toggle;
         }
 
         UI.Label();

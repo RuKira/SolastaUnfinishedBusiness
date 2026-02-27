@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -205,6 +205,26 @@ public static class RulesetCharacterPatcher
                         defenderAlreadyAttackedByAttackerThisTurn, attackModifier,
                         __instance.FeaturesOrigin[featureDefinition], distance);
                 }
+            }
+
+            foreach (var affinity in defender.GetSubFeaturesByType<CombatAffinityOnMyAttacker>()
+                         .Select(x => x.Affinity))
+            {
+                var contextParams = new RulesetImplementationDefinitions.SituationalContextParams(
+                    affinity!.SituationalContext,
+                    __instance,
+                    defender,
+                    implementationService.FindSourceIdOfFeature(defender, affinity),
+                    affinity.RequiredCondition,
+                    attackModifier.Proximity == AttackProximity.Range,
+                    null);
+
+                if (!implementationService.IsSituationalContextValid(contextParams)) { continue; }
+
+                var origin = new FeatureOrigin(FeatureSourceType.CharacterFeature, affinity.name, affinity,
+                    affinity.ParseSpecialFeatureTags());
+                affinity.ComputeAttackModifier(__instance, defender, attackMode, attackModifier,
+                    origin, 0, distance);
             }
 
             var flag = attackModifier.AttacktoHitTrends.Any(attackToHitTrend =>
@@ -491,10 +511,26 @@ public static class RulesetCharacterPatcher
 
             var characterService = ServiceRepository.GetService<IGameLocationCharacterService>();
 
-            foreach (var targetRulesetCharacter in characterService.AllValidEntities
-                         .Select(x => x.RulesetActor)
-                         .OfType<RulesetCharacter>()
-                         .ToArray())
+            List<RulesetCharacter> allCharacters = [];
+            if (characterService != null)
+            {
+                allCharacters.AddRange(characterService.AllValidEntities
+                    .Select(x => x.RulesetActor)
+                    .OfType<RulesetCharacter>());
+            }
+            else
+            {
+                var party = ServiceRepository.GetService<IGameService>().Game.GameCampaign.Party;
+
+                allCharacters.AddRange(party.CharactersList
+                    .Select(x => x.RulesetCharacter));
+
+                //Not sure if we need to check guests - most likely these things are hero-only
+                allCharacters.AddRange(party.GuestCharactersList
+                    .Select(x => x.RulesetCharacter));
+            }
+
+            foreach (var targetRulesetCharacter in allCharacters)
             {
                 // need ToArray to avoid enumerator issues with RemoveCondition
                 foreach (var rulesetCondition in targetRulesetCharacter.ConditionsByCategory
@@ -756,16 +792,24 @@ public static class RulesetCharacterPatcher
             ref bool result,
             ref string failure)
         {
-            if (result || spell.MaterialComponentType != MaterialComponentType.Specific)
-            {
-                return;
-            }
+            if (spell.MaterialComponentType != MaterialComponentType.Specific) { return; }
 
+            var onlyCurrentlyEquipped = false;
             var materialTag = spell.SpecificMaterialComponentTag;
             var requiredCost = spell.SpecificMaterialComponentCostGp;
-            var items = new List<RulesetItem>();
 
-            caster.CharacterInventory.EnumerateAllItems(items);
+            if (materialTag == TagsDefinitions.WeaponTagMelee)
+            {
+                onlyCurrentlyEquipped = true;
+                result = false;
+                failure = Gui.Format(SpellAndPowersDefinitions.FailureFlagMaterialComponentMissingSpecific,
+                    Gui.FormatTag(materialTag), Gui.FormatCostGp(requiredCost));
+            }
+
+            if (result) { return; }
+
+            var items = new List<RulesetItem>();
+            caster.CharacterInventory.EnumerateAllItems(items, !onlyCurrentlyEquipped, onlyCurrentlyEquipped);
 
             var tagsMap = new Dictionary<string, TagsDefinitions.Criticity>();
 
@@ -777,7 +821,7 @@ public static class RulesetCharacterPatcher
                 var itemItemDefinition = rulesetItem.ItemDefinition;
                 var costInGold = EquipmentDefinitions.GetApproximateCostInGold(itemItemDefinition.Costs);
 
-                if (tagsMap.ContainsKey(materialTag) && costInGold >= requiredCost)
+                if (!tagsMap.ContainsKey(materialTag) || costInGold < requiredCost)
                 {
                     continue;
                 }
@@ -852,6 +896,7 @@ public static class RulesetCharacterPatcher
         }
     }
 
+
     [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.IsSubjectToAttackOfOpportunity))]
     [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
     [UsedImplicitly]
@@ -865,6 +910,19 @@ public static class RulesetCharacterPatcher
             //PATCH: allows custom exceptions for attack of opportunity triggering
             //Mostly for Sentinel feat
             __result = AttacksOfOpportunity.IsSubjectToAttackOfOpportunity(__instance, attacker, __result, distance);
+            
+            //PATCH: Swashbuckler Panache prevents AoO against allies
+            if (__result && attacker.TryGetConditionOfCategoryAndType(
+                AttributeDefinitions.TagEffect,
+                "ConditionRoguishSwashbucklerPanache",
+                out var panacheCondition))
+            {
+                var source = EffectHelpers.GetCharacterByGuid(panacheCondition.SourceGuid);
+                if (source != null && __instance != source && __instance.Side == source.Side)
+                {
+                    __result = false;
+                }
+            }
         }
     }
 
@@ -1130,6 +1188,9 @@ public static class RulesetCharacterPatcher
             RulesetAttribute attribute, RulesetCharacter me, RulesetCharacter target, BaseDefinition attackMethod)
         {
             var current = attribute.CurrentValue;
+
+            //target was a gadget, skip
+            if (target is null) { return current; }
 
             me.GetSubFeaturesByType<IModifyAttackCriticalThreshold>().ForEach(m =>
                 current = m.GetCriticalThreshold(current, me, target, attackMethod));
@@ -2311,6 +2372,39 @@ public static class RulesetCharacterPatcher
             }
 
             actor.CurrentHitPoints = success ? rulesetCharacter.GetClassLevel(Barbarian) * 2 : currentHitPoints;
+        }
+    }
+
+    [HarmonyPatch(typeof(RulesetCharacter), nameof(RulesetCharacter.TerminateAllSpellsAndEffects))]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "Patch")]
+    [UsedImplicitly]
+    public static class TerminateAllSpellsAndEffects_Patch
+    {
+        [UsedImplicitly]
+        public static bool Prefix(RulesetCharacter __instance)
+        {
+            //PATCH: fixed possibility of collection being modified while iterated upon
+            TerminateAllSpellsAndEffects(__instance);
+            return false;
+        }
+
+        private static void TerminateAllSpellsAndEffects(RulesetCharacter character)
+        {
+            var spellsTopTerminate = character.SpellsCastByMe.ToList();
+            character.spellsCastByMe.Clear();
+
+            var powersToTerminate = character.powersUsedByMe.ToList();
+            character.powersUsedByMe.Clear();
+
+            foreach (var activeSpell in spellsTopTerminate)
+            {
+                character.TerminateSpell(activeSpell, false);
+            }
+
+            foreach (var activePower in powersToTerminate)
+            {
+                character.TerminatePower(activePower, false);
+            }
         }
     }
 

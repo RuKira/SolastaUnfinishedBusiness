@@ -233,6 +233,7 @@
     <DisplayAllKnownSpellsDuringLevelUp>true</DisplayAllKnownSpellsDuringLevelUp>
     <DisplayPactSlotsOnSpellSelectionPanel>true</DisplayPactSlotsOnSpellSelectionPanel>
     <EnableMinInOutAttributes>false</EnableMinInOutAttributes>
+    <AlwaysSpendPactSlotsFirst>false</AlwaysSpendPactSlotsFirst>
     <EnableActionSwitching>true</EnableActionSwitching>
     <DontEndTurnAfterReady>true</DontEndTurnAfterReady>
     <EnableProneAction>true</EnableProneAction>
@@ -295,9 +296,11 @@
     <OverridePartySize>2</OverridePartySize>
     <AllowAllPlayersOnNarrativeSequences>false</AllowAllPlayersOnNarrativeSequences>
     <AddPickPocketableLoot>true</AddPickPocketableLoot>
+    <EnemySpellcastersDropScribedSpellbooks>true</EnemySpellcastersDropScribedSpellbooks>
     <AltOnlyHighlightItemsInPartyFieldOfView>true</AltOnlyHighlightItemsInPartyFieldOfView>
     <EnableAdditionalIconsOnLevelMap>true</EnableAdditionalIconsOnLevelMap>
     <HideExitsAndTeleportersGizmosIfNotDiscovered>true</HideExitsAndTeleportersGizmosIfNotDiscovered>
+    <EnableOutOfCombatTargetingSightLines>true</EnableOutOfCombatTargetingSightLines>
     <EnableLogDialoguesToConsole>true</EnableLogDialoguesToConsole>
     <EnableSpeech>true</EnableSpeech>
     <EnableSpeechOnNpcs>true</EnableSpeechOnNpcs>
@@ -630,10 +633,13 @@
     <ShowCraftingRecipeInDetailedTooltips>true</ShowCraftingRecipeInDetailedTooltips>
     <ShowCraftedItemOnRecipeIcon>true</ShowCraftedItemOnRecipeIcon>
     <SwapCraftedItemAndRecipeIcons>true</SwapCraftedItemAndRecipeIcons>
+    <LearnAllScrollRecipes>false</LearnAllScrollRecipes>
     <RecipeCost>200</RecipeCost>
     <TotalCraftingTimeModifier>0</TotalCraftingTimeModifier>
     <AddNewWeaponsAndRecipesToShops>true</AddNewWeaponsAndRecipesToShops>
-    <CraftingInStore>
+    <NewWeaponsAndRecipesBaseInsteadOfPrimed>false</NewWeaponsAndRecipesBaseInsteadOfPrimed>
+    <NewWeaponsAndRecipesSimplified>false</NewWeaponsAndRecipesSimplified>
+  <CraftingInStore>
         <string>PrimedItems</string>
         <string>EnchantingIngredients</string>
         <string>RelicForgeries</string>

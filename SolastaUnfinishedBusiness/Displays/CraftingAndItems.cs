@@ -318,6 +318,12 @@ internal static class CraftingAndItems
             }
         }
 
+        toggle = Main.Settings.LearnAllScrollRecipes;
+        if (UI.Toggle(Gui.Localize("ModUi/&LearnAllScrollRecipes"), ref toggle, UI.AutoWidth()))
+        {
+            Main.Settings.LearnAllScrollRecipes = toggle;
+        }
+
         UI.Label();
 
         var intValue = Main.Settings.RecipeCost;
@@ -339,6 +345,21 @@ internal static class CraftingAndItems
         if (UI.Toggle(Gui.Localize(Gui.Localize("ModUi/&AddNewWeaponsAndRecipesToShops")), ref toggle, UI.AutoWidth()))
         {
             Main.Settings.AddNewWeaponsAndRecipesToShops = toggle;
+        }
+
+        if (Main.Settings.AddNewWeaponsAndRecipesToShops)
+        {
+            toggle = Main.Settings.NewWeaponsAndRecipesBaseInsteadOfPrimed;
+            if (UI.Toggle(Gui.Localize("ModUi/&NewWeaponsAndRecipesBaseInsteadOfPrimed"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.NewWeaponsAndRecipesBaseInsteadOfPrimed = toggle;
+            }
+
+            toggle = Main.Settings.NewWeaponsAndRecipesSimplified;
+            if (UI.Toggle(Gui.Localize("ModUi/&NewWeaponsAndRecipesSimplified"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.NewWeaponsAndRecipesSimplified = toggle;
+            }
         }
 
         toggle = CraftingContext.RecipeBooks.Keys.Count == Main.Settings.CraftingInStore.Count;

@@ -1089,9 +1089,8 @@ internal static class GLBM
 
                             //TODO: convert this to a proper interface to change number of smite dice
                             if (validTrigger && isDivineSmite &&
-                                hero.GetSubclassLevel(
-                                    DatabaseHelper.CharacterClassDefinitions.Paladin,
-                                    OathOfDemonHunter.Name) == 20)
+                                hero.GetSubclassLevel(DatabaseHelper.CharacterClassDefinitions.Paladin,
+                                    OathOfThunder.Name) == 20)
                             {
                                 reactionParams.intParameter++;
                             }
@@ -1200,7 +1199,8 @@ internal static class GLBM
                         ExtraAdditionalDamageTriggerCondition.TargetIsDuelingWithYou:
                     {
                         validTrigger = RoguishDuelist
-                            .TargetIsDuelingWithRoguishDuelist(attacker, defender, advantageType);
+                            .TargetIsDuelingWithRoguishDuelist(attacker, defender, advantageType) ||
+                            RoguishSwashbuckler.IsRakishAudacity1v1Valid(attacker, defender, advantageType);
                         break;
                     }
 

@@ -213,6 +213,7 @@ Feature/&FeatureSetRangerDeftExplorerDescription=여행 덕분에 다음과 같�
 Feature/&FeatureSetRangerDeftExplorerTitle=데프트 탐험가
 Feature/&FeatureSetRangerFavoredEnemyDescription=당신은 항상 Hunter's Mark 주문을 준비합니다. 당신은 주문 슬롯을 소모하지 않고 두 번 시전할 수 있으며, Long Rest를 완료하면 이 능력의 소모된 모든 사용을 회복합니다. 주문 슬롯 없이 주문을 시전할 수 있는 횟수는 특정 레인저 레벨에서 증가하여 5레벨에서 3회, 9레벨에서 4회, 13레벨에서 5회, 17레벨에서 6회로 증가합니다.
 Feature/&FeatureSetRangerFavoredEnemyTitle=선호하는 적
+Feature/&FeatureSetSorcererDraconicResilience2024Description=레벨당 1의 추가 체력을 얻고 갑옷 클래스는 갑옷을 착용하지 않을 때 10 + 민첩성 보너스 + 카리스마 보너스입니다.
 Feature/&FeatureSetSorcererSorceryIncarnateDescription=선천적 마법을 더 이상 사용할 수 없다면, 보너스 액션을 취해 활성화할 때 마법 포인트 2개를 사용하면 사용할 수 있습니다.
 Feature/&FeatureSetSorcererSorceryIncarnateTitle=마법의 화신
 Feature/&FeatureSorcererArcaneApotheosisDescription=선천적 마법 기능이 활성화되어 있는 동안에는 각 턴에 마법 포인트를 소모하지 않고도 메타매직 옵션 하나를 사용할 수 있습니다.
@@ -394,7 +395,7 @@ Feedback/&ConcentrationEffectCheckRolledAnyAdvantageLine={0} 굴림은 {1} {2} �
 Feedback/&ConcentrationEffectCheckRolledLine={0} 굴림은 {1} 대 DC {2}를 유지하기 위한 굴림, 굴림 {3} = {4}
 Feedback/&FlankingAttack=측면 공격
 Feedback/&HigherGroundAttack=더 높은 땅
-Feedback/&MagicalGuidanceCheckToHitRoll={0}은(는) {1}을(를) 사용했고 수표 판정의 {3}을(를) 대체하기 위해 {2}를 굴렸습니다.
+Feedback/&MagicalGuidanceCheckToHitRoll={0}은(는) {1}을(를) 사용했고 수표 판정의 {3}을(를) 대체하기 위해 {2}를 굴렸습니다: {4}.
 Feedback/&MetamagicActivatedShortLine={0}은 {1} 메타매직을 활성화합니다.
 Feedback/&NarrativeChoiceRoll={0}는 {2} 결과와 함께 {1} 설명 선택을 굴립니다.
 Feedback/&PowerAfterRestIdentifyUsedWhileTravellingFormat=여행 중에는 휴식 후 식별 전원을 사용할 수 없습니다.

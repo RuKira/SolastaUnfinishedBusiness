@@ -64,7 +64,7 @@ public static class CharacterBuildingManagerPatcher
                 return;
             }
 
-            var hero = __instance.CurrentLocalHeroCharacter;
+            var hero = heroBuildingData.HeroCharacter;
 
             __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -117,7 +117,7 @@ public static class CharacterBuildingManagerPatcher
             return;
         }
 
-        var hero = __instance.CurrentLocalHeroCharacter;
+        var hero = heroBuildingData.HeroCharacter;
 
         __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -395,7 +395,7 @@ public static class CharacterBuildingManagerPatcher
             }
 
             // consider cantrips from subclasses
-            var subclassTag = AttributeDefinitions.GetSubclassTag(selectedClass, 1, selectedSubclass);
+            var subclassTag = AttributeDefinitions.GetSubclassTag(selectedClass, selectedClassLevel, selectedSubclass);
             var subclassPoolName = $"{subclassTag}{name}";
 
             if (!heroBuildingData.AcquiredCantrips.TryGetValue(subclassPoolName, out var cantrips3))
@@ -1058,7 +1058,8 @@ public static class CharacterBuildingManagerPatcher
                     continue;
                 }
 
-                var hero = __instance.CurrentLocalHeroCharacter;
+                
+                var hero = heroBuildingData.HeroCharacter;
 
                 __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -1100,7 +1101,7 @@ public static class CharacterBuildingManagerPatcher
                     continue;
                 }
 
-                var hero = __instance.CurrentLocalHeroCharacter;
+                var hero = heroBuildingData.HeroCharacter;
 
                 __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 
@@ -1146,7 +1147,7 @@ public static class CharacterBuildingManagerPatcher
                     continue;
                 }
 
-                var hero = __instance.CurrentLocalHeroCharacter;
+                var hero = heroBuildingData.HeroCharacter;
 
                 __instance.GetLastAssignedClassAndLevel(hero, out var classDefinition, out var level);
 

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <LangVersion>13</LangVersion>
     <TargetFramework>net481</TargetFramework>
-    <AssemblyVersion>1.5.97.93</AssemblyVersion>
+    <AssemblyVersion>1.5.97.125</AssemblyVersion>
     <RepositoryUrl>https://github.com/SolastaMods/SolastaUnfinishedBusiness</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Configurations>Debug Install;Release Install;Release Workflow</Configurations>
@@ -249,6 +249,10 @@
     <Reference Include="Cinemachine">
       <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/Cinemachine.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>$(SolastaInstallDir)/Solasta_Data/Managed/System.Net.Http.dll</HintPath>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 

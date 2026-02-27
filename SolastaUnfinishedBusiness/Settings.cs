@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using SolastaUnfinishedBusiness.Api.Infrastructure;
 using SolastaUnfinishedBusiness.Displays;
 using SolastaUnfinishedBusiness.Models;
+using SolastaUnfinishedBusiness.Models.TranslationServices;
 using UnityModManagerNet;
 
 namespace SolastaUnfinishedBusiness;
@@ -84,7 +85,8 @@ public class Settings : UnityModManager.ModSettings
     public bool EnablePcgRandom { get; set; }
     public bool EnableCustomPortraits { get; set; } = true;
     public bool DisableMultilineSpellOffering { get; set; }
-    public bool DisableUnofficialTranslations { get; set; } = true;
+    public bool DisableUnofficialTranslations { get; set; } = true; 
+    public bool WideScreenBattleUI { get; set; } = true;
 
     //
     // Gameplay - Rules
@@ -97,6 +99,7 @@ public class Settings : UnityModManager.ModSettings
     public bool DisplayAllKnownSpellsDuringLevelUp { get; set; }
     public bool DisplayPactSlotsOnSpellSelectionPanel { get; set; }
     public bool EnableMinInOutAttributes { get; set; }
+    public bool AlwaysSpendPactSlotsFirst { get; set; }
     [Tag(Type = TagType.QoL)] public bool EnableActionSwitching { get; set; }
     [Tag(Type = TagType.T2014)] public bool DontEndTurnAfterReady { get; set; }
     [Tag(Type = TagType.T2014)] public bool EnableProneAction { get; set; }
@@ -110,9 +113,11 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnableSmiteSpells2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool UseWeaponMasterySystem { get; set; }
     [Tag(Type = TagType.T2024)] public bool UseWeaponMasterySystemAddWeaponTag { get; set; }
+    public bool UseWeaponMasteryMonkWayOfBlade { get; set; }
     public bool UseWeaponMasterySystemAddCleaveDamage { get; set; }
     public bool UseWeaponMasterySystemFlurryTriggersMastery { get; set; }
     public bool UseWeaponMasterySystemNickExtraAttackTriggersMastery { get; set; }
+    public bool UseWeaponMasterySystemNickDualFlurry { get; set; }
     public bool UseWeaponMasterySystemPushSave { get; set; }
     public bool WeaponMasterySystemCustomizeToggle { get; set; }
     public SerializableDictionary<string, Tabletop2024Context.MasteryProperty> WeaponMasteryCustom { get; set; } = [];
@@ -125,7 +130,6 @@ public class Settings : UnityModManager.ModSettings
     public bool EnableInitiativeRollOnEveryRoundStart { get; set; }
     [Tag(Type = TagType.T2014)] public bool BlindedConditionDontAllowAttackOfOpportunity { get; set; }
     [Tag(Type = TagType.T2014)] public bool UseOfficialLightingObscurementAndVisionRules { get; set; }
-    [Tag(Type = TagType.T2014)] public bool EnableShotInDarknessPenalties { get; set; }
     [Tag(Type = TagType.T2014)] public bool EnableChanceToPerceiveCloseRange { get; set; }
     [Tag(Type = TagType.T2014)] public bool OfficialObscurementRulesInvisibleCreaturesCanBeTarget { get; set; }
     [Tag(Type = TagType.T2014)] public bool OfficialObscurementRulesCancelAdvDisPairs { get; set; }
@@ -179,9 +183,11 @@ public class Settings : UnityModManager.ModSettings
     public int OverridePartySize { get; set; } = ToolsContext.GamePartySize;
     public bool AllowAllPlayersOnNarrativeSequences { get; set; }
     public bool AddPickPocketableLoot { get; set; }
+    public bool EnemySpellcastersDropScribedSpellbooks { get; set; }
     public bool AltOnlyHighlightItemsInPartyFieldOfView { get; set; }
     [Tag(Type = TagType.QoL)] public bool EnableAdditionalIconsOnLevelMap { get; set; }
     public bool HideExitsAndTeleportersGizmosIfNotDiscovered { get; set; }
+    public bool EnableOutOfCombatTargetingSightLines { get; set; }
     public bool EnableLogDialoguesToConsole { get; set; }
     public bool EnableSpeech { get; set; }
     public bool EnableSpeechOnNpcs { get; set; }
@@ -293,9 +299,12 @@ public class Settings : UnityModManager.ModSettings
     public bool ShowCraftingRecipeInDetailedTooltips { get; set; }
     public bool ShowCraftedItemOnRecipeIcon { get; set; }
     public bool SwapCraftedItemAndRecipeIcons { get; set; }
+    public bool LearnAllScrollRecipes { get; set; }
     public int RecipeCost { get; set; } = 200;
     public int TotalCraftingTimeModifier { get; set; }
     public bool AddNewWeaponsAndRecipesToShops { get; set; }
+    public bool NewWeaponsAndRecipesBaseInsteadOfPrimed { get; set; }
+    public bool NewWeaponsAndRecipesSimplified { get; set; }
     public bool AddNewScrollsToShops { get; set; }
     public bool AddNewScrollsToTreasure { get; set; }
     public List<string> CraftingInStore { get; } = [];
@@ -313,6 +322,28 @@ public class Settings : UnityModManager.ModSettings
     public bool EnableVariablePlaceholdersOnTexts { get; set; }
     public bool EnableDungeonMakerModdedContent { get; set; }
     public string SelectedLanguageCode { get; set; } = TranslatorContext.English;
+
+    //
+    // Translation Service Settings
+    //
+    public TranslationServiceType SelectedTranslationService { get; set; } =
+        TranslationServiceType.Google;
+
+    public bool GoogleLegacyMode { get; set; }
+
+    public string OpenAIEndpoint { get; set; } = OpenAITranslationService.DefaultEndpoint;
+    public string OpenAIModel { get; set; } = OpenAITranslationService.DefaultModel;
+    public float OpenAITemperature { get; set; } = OpenAITranslationService.DefaultTemperature;
+    public float OpenAITopP { get; set; } = OpenAITranslationService.DefaultTopP;
+    public int OpenAITopK { get; set; } = OpenAITranslationService.DefaultTopK;
+
+    public string OpenAISystemPrompt { get; set; } =
+        OpenAITranslationService.FallbackSystemPrompt;
+
+    /// <summary>
+    ///     Number of concurrent translation tasks (1-10).
+    /// </summary>
+    public int TranslationConcurrency { get; set; } = 1;
 
     //
     // Characters - Classes
@@ -375,6 +406,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnablePaladinRestoringTouch2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnablePaladinSmite2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnablePaladinSpellCastingAtLevel1 { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnablePaladinAnyFightingStyle2024 { get; set; }
     public bool ShowChannelDivinityOnPortrait { get; set; }
     public bool AddHumanoidFavoredEnemyToRanger { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerDeftExplorer2024 { get; set; }
@@ -387,6 +419,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnableRangerRoving2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerSpellCastingAtLevel1 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerTireless2024 { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableRangerAnyFightingStyle2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool RemoveRangerPrimevalAwareness2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerFeralSenses2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableRangerFoeSlayers2024 { get; set; }
@@ -404,6 +437,7 @@ public class Settings : UnityModManager.ModSettings
     public bool HideQuickenedActionWhenMetamagicOff { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableSorcererSorcerousRestoration2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableSorcererMetamagic2024 { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableSorcererDraconicBloodlineAC2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableSorcererOrigin2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableWarlockInvocationProgression2024 { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableWarlockMagicalCunningAndImprovedEldritchMaster2024 { get; set; }
@@ -478,6 +512,8 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2014)] public bool FixEldritchBlastRange { get; set; }
     public bool ModifyGravitySlam { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndBarkskinSpell { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableOneDndChillTouchCantrip { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableOneDndBladeWardCantrip { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndDamagingSpellsUpgrade { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndHealingSpellsUpgrade { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndDivineFavorSpell { get; set; }
@@ -491,6 +527,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool EnableOneDndSpiderClimbSpell { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndStoneSkinSpell { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableOneDndTrueStrikeCantrip { get; set; }
+    [Tag(Type = TagType.T2024)] public bool EnableOneDndWitchBoltSpell { get; set; }
     public bool SwapShineCantrip { get; set; }
     public bool AllowHasteCasting { get; set; }
     public bool AllowStackedMaterialComponent { get; set; }
@@ -515,6 +552,7 @@ public class Settings : UnityModManager.ModSettings
     [Tag(Type = TagType.T2024)] public bool SwapAbjurationSavant { get; set; }
     [Tag(Type = TagType.T2024)] public bool SwapEvocationSavant { get; set; }
     [Tag(Type = TagType.T2024)] public bool SwapEvocationPotentCantripAndSculptSpell { get; set; }
+    public bool EvocationSculptSpellNoPerception { get; set; }
     [Tag(Type = TagType.T2024)] public bool EnableMartialChampion2024 { get; set; }
     public SerializableDictionary<string, int> KlassListSliderPosition { get; set; } = [];
     public SerializableDictionary<string, List<string>> KlassListSubclassEnabled { get; set; } = [];
