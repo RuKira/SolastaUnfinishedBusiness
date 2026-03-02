@@ -1213,7 +1213,7 @@ internal static class FixesContext
     {
         CastSpellSorcerer.slotsRecharge = RechargeRate.ShortRest;
         CastSpellSorcerer.staticDCValue = 13;
-        CastSpellSorcerer.staticToHitValue = 8;
+        CastSpellSorcerer.staticToHitValue = 10;
         
         #region SpellSlots
             FeatureDefinitionCastSpell.SlotsByLevelDuplet one = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
@@ -1297,10 +1297,10 @@ internal static class FixesContext
             CastSpellSorcerer.slotsPerLevels[18] = nineteen;
             CastSpellSorcerer.slotsPerLevels[19] = twenty;
         #endregion
-        CastSpellSorcerer.knownSpells = [2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 18, 19, 20, 21, 22, 26, 27, 28, 29, 30];
-        CastSpellSorcerer.knownCantrips = [4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 0];
+        CastSpellSorcerer.knownSpells = [3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 18, 19, 20, 21, 22, 26, 27, 28, 29, 30];
+        CastSpellSorcerer.knownCantrips = [4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 10];
         
-       // _ = WriteFileAsync("Sorc.json", JsonConvert.SerializeObject(FeatureDefinitionCastSpells.CastSpellSorcerer.staticToHitValue, Formatting.Indented));
+        //_ = WriteFileAsync("Sorc.json", JsonConvert.SerializeObject(FeatureDefinitionCastSpells.CastSpellSorcerer.staticToHitValue, Formatting.Indented));
 
 
     }
@@ -1310,28 +1310,28 @@ internal static class FixesContext
         #region SpellSlots
             FeatureDefinitionCastSpell.SlotsByLevelDuplet one = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             one.level = 11;
-            one.slots = [0, 0, 0, 0, 2, 0, 0, 0, 0];
+            one.slots = [2, 0, 0, 0, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet two = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             two.level = 12;
-            two.slots = [0, 0, 0, 0, 2, 0, 0, 0, 0];
+            two.slots = [2, 0, 0, 0, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet three = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             three.level = 13;
-            three.slots = [0, 0, 0, 0, 3, 0, 0, 0, 0];
+            three.slots = [0, 3, 0, 0, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet four = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             four.level = 14;
-            four.slots = [0, 0, 0, 0, 3, 0, 0, 0, 0];
+            four.slots = [0, 3, 0, 0, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet five = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             five.level = 15;
-            five.slots = [0, 0, 0, 0, 3, 0, 0, 0, 0];
+            five.slots = [0, 0, 3, 0, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet six = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             six.level = 16;
-            six.slots = [0, 0, 0, 0, 4, 0, 0, 0, 0];
+            six.slots = [0, 0, 4, 0, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet seven = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             seven.level = 17;
-            seven.slots = [0, 0, 0, 0, 4, 0, 0, 0, 0];
+            seven.slots = [0, 0, 0, 4, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet eight = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             eight.level = 18;
-            eight.slots = [0, 0, 0, 0, 4, 0, 0, 0, 0];
+            eight.slots = [0, 0, 0, 4, 0, 0, 0, 0, 0];
             FeatureDefinitionCastSpell.SlotsByLevelDuplet nine = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
             nine.level = 19;
             nine.slots = [0, 0, 0, 0, 5, 0, 0, 0, 0];
@@ -1396,6 +1396,8 @@ internal static class FixesContext
     private static void ClericFixes()
     {
         CastSpellCleric.slotsRecharge = RechargeRate.ShortRest;
+        CastSpellCleric.staticDCValue = 13;
+        CastSpellCleric.staticToHitValue = 10;
         foreach (var slots in CastSpellSorcerer.slotsPerLevels)
         {
             CastSpellCleric.slotsPerLevels[slots.level - 1] = slots;

@@ -26,7 +26,7 @@ internal static class SubraceShadarKaiBuilder
         var pointPoolAbilityScore = FeatureDefinitionPointPoolBuilder
             .Create("PointPoolShadarKaiAbilityScoreIncrease")
             .SetGuiPresentation("Feature/&AbilityScoreIncreaseTitle", "Feature/&AttributeIncreaseAny1Description")
-            .SetPool(HeroDefinitions.PointsPoolType.AbilityScore, 1)
+            .SetPool(HeroDefinitions.PointsPoolType.AbilityScore, 4)
             .AddToDB();
 
         var shadarKaiRacePresentation = Elf.RacePresentation.DeepCopy();
@@ -97,7 +97,7 @@ internal static class SubraceShadarKaiBuilder
             .SetGuiPresentation(Category.Race, shadarKaiSpriteReference)
             .SetRacePresentation(shadarKaiRacePresentation)
             .SetFeaturesAtLevel(1,
-                FeatureDefinitionMoveModes.MoveModeMove6,
+                FeatureDefinitionMoveModes.MoveModeMove8,
                 FeatureDefinitionFeatureSets.FeatureSetElfHighLanguages,
                 FeatureDefinitionProficiencys.ProficiencyElfWeaponTraining,
                 pointPoolAbilityScore,
