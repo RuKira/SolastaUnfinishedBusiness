@@ -421,9 +421,101 @@ public static partial class Tabletop2024Context
                     [0, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11];
             }
 
-            FeatureDefinitionCastSpells.CastSpellSorcerer.knownSpells =
-                [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15, 15];
+            FeatureDefinitionCastSpells.CastSpellSorcerer.knownSpells = 
+                    [3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 18, 19, 20, 21, 22, 26, 27, 28, 29, 30];
+            SorcererFix();
         }
+    }
+
+    private static void SorcererFix()
+    {
+        FeatureDefinitionCastSpells.CastSpellSorcerer.slotsRecharge = RechargeRate.ShortRest;
+        // FeatureDefinitionCastSpells.CastSpellSorcerer.staticDCValue = 13;
+        // FeatureDefinitionCastSpells.CastSpellSorcerer.staticToHitValue = 10;
+        
+        #region SpellSlots
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet one = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            one.level = 1;
+            one.slots = [2, 0, 0, 0, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet two = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            two.level = 2;
+            two.slots = [3, 0, 0, 0, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet three = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            three.level = 3;
+            three.slots = [4, 2, 0, 0, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet four = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            four.level = 4;
+            four.slots = [4, 3, 0, 0, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet five = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            five.level = 5;
+            five.slots = [4, 3, 2, 0, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet six = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            six.level = 6;
+            six.slots = [5, 4, 3, 0, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet seven = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            seven.level = 7;
+            seven.slots = [5, 4, 3, 2, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet eight = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            eight.level = 8;
+            eight.slots = [6, 5, 4, 3, 0, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet nine = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            nine.level = 9;
+            nine.slots = [6, 5,	4, 3, 2, 0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet ten = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            ten.level = 10;
+            ten.slots = [7,	6, 5, 4, 3,	0, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet eleven = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            eleven.level = 11;
+            eleven.slots = [7, 6, 5, 4,	3, 2, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet twelve = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            twelve.level = 12;
+            twelve.slots = [8, 7, 6, 5, 4, 3, 0, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet thirteen = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            thirteen.level = 13;
+            thirteen.slots = [8, 7,	6, 5, 4, 3,	2, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet fourteen = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            fourteen.level = 14;
+            fourteen.slots = [9, 8,	7, 6, 5, 4,	3, 0, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet fifteen = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            fifteen.level = 15;
+            fifteen.slots = [9,	8, 7, 6, 5,	4, 3, 2, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet sixteen = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            sixteen.level = 16;
+            sixteen.slots = [10, 9, 8, 7, 6, 5, 4, 3, 0];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet seventeen = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            seventeen.level = 17;
+            seventeen.slots = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet eighteen = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            eighteen.level = 18;
+            eighteen.slots = [10, 10,	9,	8,	7,	6,	5,	4,	3];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet nineteen = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            nineteen.level = 19;
+            nineteen.slots = [10, 10,	9,	8,	7,	7,	5,	4,	3];
+            FeatureDefinitionCastSpell.SlotsByLevelDuplet twenty = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
+            twenty.level = 20;
+            twenty.slots = [10,	10,	10,	9,	8,	8,	6,	5,	4];
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[0] = one;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[1] = two;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[2] = three;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[3] = four;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[4] = five;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[5] = six;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[6] = seven;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[7] = eight;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[8] = nine;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[9] = ten;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[10] = eleven;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[11] = twelve;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[12] = thirteen;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[13] = fourteen;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[14] = fifteen;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[15] = sixteen;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[16] = seventeen;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[17] = eighteen;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[18] = nineteen;
+            FeatureDefinitionCastSpells.CastSpellSorcerer.slotsPerLevels[19] = twenty;
+        #endregion
+        FeatureDefinitionCastSpells.CastSpellSorcerer.knownCantrips = [4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9,0];
     }
 
     private static void LoadOneDndSpellTrueStrike()

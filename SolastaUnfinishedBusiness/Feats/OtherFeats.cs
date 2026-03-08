@@ -378,11 +378,9 @@ internal static class OtherFeats
             .SetFeatures(
                 ActionAffinitySorcererMetamagicToggle,
                 FeatureDefinitionAttributeModifierBuilder
-                    .Create(AttributeModifierSorcererSorceryPointsBase, "AttributeModifierSorcererSorceryPointsBonus5")
+                    .Create(AttributeModifierSorcererSorceryPointsBase, "AttributeModifierSorcererSorceryPointsBonus2")
                     .SetGuiPresentationNoContent(true)
-                    .SetModifier(
-                        AttributeModifierOperation.AddHalfProficiencyBonus,
-                        AttributeDefinitions.SorceryPoints)
+                    .SetModifier(AttributeModifierOperation.Additive, AttributeDefinitions.SorceryPoints, 5)
                     .AddToDB(),
                 FeatureDefinitionPointPoolBuilder
                     .Create("PointPoolFeatMetamagicAdept")
@@ -390,7 +388,7 @@ internal static class OtherFeats
                     .SetPool(HeroDefinitions.PointsPoolType.Metamagic, 2)
                     .AddToDB())
             .SetMustCastSpellsPrerequisite()
-            .SetValidators(ValidatorsFeat.IsLevel2)
+            //.SetValidators(ValidatorsFeat.IsLevel2)
             .AddToDB();
     }
 

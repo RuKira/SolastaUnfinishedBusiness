@@ -66,7 +66,7 @@ internal static class SubraceShadarKaiBuilder
                 EffectDescriptionBuilder
                     .Create()
                     .SetDurationData(DurationType.Round, 0, TurnOccurenceType.StartOfTurn)
-                    .SetTargetingData(Side.Ally, RangeType.Distance, 6, TargetType.Position)
+                    .SetTargetingData(Side.Ally, RangeType.Distance, 8, TargetType.Position)
                     .SetEffectForms(
                         EffectFormBuilder
                             .Create()
