@@ -513,12 +513,12 @@ internal static class Level20Context
             CastSpellSorcerer.SlotsPerLevels);
 
         EnumerateKnownSpells(
-            2,
+            3,
             CasterProgression.Full,
             CastSpellSorcerer.KnownSpells);
 
         EnumerateReplacedSpells(
-            2, 1, CastSpellSorcerer.ReplacedSpells);
+            2, 2, CastSpellSorcerer.ReplacedSpells);
 
         SpellListSorcerer.maxSpellLevel = 9;
     }

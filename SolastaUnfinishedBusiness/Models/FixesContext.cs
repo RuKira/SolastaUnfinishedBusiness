@@ -1200,7 +1200,7 @@ internal static class FixesContext
     {
         CastSpellSorcerer.slotsRecharge = RechargeRate.ShortRest;
         CastSpellSorcerer.staticDCValue = 13;
-        CastSpellSorcerer.staticToHitValue = 8;
+        CastSpellSorcerer.staticToHitValue = 10;
         
         #region SpellSlots
             FeatureDefinitionCastSpell.SlotsByLevelDuplet one = new FeatureDefinitionCastSpell.SlotsByLevelDuplet();
@@ -1284,8 +1284,8 @@ internal static class FixesContext
             CastSpellSorcerer.slotsPerLevels[18] = nineteen;
             CastSpellSorcerer.slotsPerLevels[19] = twenty;
         #endregion
-        CastSpellSorcerer.knownSpells = [2, 3, 4, 5, 6, 10, 11, 12, 13, 14, 18, 19, 20, 21, 22, 26, 27, 28, 29, 30];
-        CastSpellSorcerer.knownCantrips = [4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 9, 9, 0];
+        CastSpellSorcerer.knownSpells = [3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 26, 27, 28, 29, 30];
+        CastSpellSorcerer.knownCantrips = [4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 0];
         
        // _ = WriteFileAsync("Sorc.json", JsonConvert.SerializeObject(FeatureDefinitionCastSpells.CastSpellSorcerer.staticToHitValue, Formatting.Indented));
 
