@@ -354,8 +354,8 @@ internal static class OtherFeats
                     FeatureDefinitionPointPoolBuilder
                         .Create($"PointPool{NAME}{className}Spell")
                         .SetGuiPresentationNoContent(true)
-                        .SetSpellOrCantripPool(HeroDefinitions.PointsPoolType.Spell, 1, spellList,
-                            FeatMagicInitiateTag, 1, 1)
+                        .SetSpellOrCantripPool(HeroDefinitions.PointsPoolType.Spell, 2, spellList,
+                            FeatMagicInitiateTag, 1, 2)
                         .AddToDB())
                 .SetFeatFamily(NAME)
                 .AddToDB();
@@ -387,10 +387,10 @@ internal static class OtherFeats
                 FeatureDefinitionPointPoolBuilder
                     .Create("PointPoolFeatMetamagicAdept")
                     .SetGuiPresentationNoContent(true)
-                    .SetPool(HeroDefinitions.PointsPoolType.Metamagic, 2)
+                    .SetPool(HeroDefinitions.PointsPoolType.Metamagic, 5)
                     .AddToDB())
             .SetMustCastSpellsPrerequisite()
-            .SetValidators(ValidatorsFeat.IsLevel2)
+            // .SetValidators(ValidatorsFeat.IsLevel2)
             .AddToDB();
     }
 

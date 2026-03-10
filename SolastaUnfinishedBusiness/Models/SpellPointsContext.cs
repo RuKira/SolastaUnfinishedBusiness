@@ -63,7 +63,7 @@ internal static class SpellPointsContext
         EnumerateSlotsPerLevel(CasterProgression.Half, SpellPointsHalfCastingSlots, true);
         EnumerateSlotsPerLevel(CasterProgression.HalfRoundUp, SpellPointsHalfRoundUpCastingSlots, true);
         EnumerateSlotsPerLevel(CasterProgression.OneThird, SpellPointsOneThirdCastingSlots, true);
-        SwitchFeatureDefinitionCastSpellSlots();
+        // SwitchFeatureDefinitionCastSpellSlots();
     }
 
     internal static void SwitchFeatureDefinitionCastSpellSlots()
