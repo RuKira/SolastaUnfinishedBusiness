@@ -1,3 +1,168 @@
+1.5.97.125:
+- reworked `Sculpt Spells` from Evocation Wizard to allow it to work with ongoing effect spells (like Sickening Radiance)
+- fixed Meteor Swarm school (Transmutation => Evocation) + small code cleanup
+- fixed casting time of `Ashardalon's Stride` (Action => Bonus Action)
+
+1.5.97.124:
+- Add Widescreen Battle UI option (PR by Kiloku)
+- fixed crash when trying to attack spell effect proxies (like Dawn spell)
+- fixed crash when attacking gadgets with weapon mastery enabled
+
+1.5.97.123:
+- added setting to prioritize pact slots usage by default (PR by FelipeRenault)
+- fixed potential MP crashes during level-up caused by ui and mechanics patches added by UB
+
+1.5.97.122:
+- fixed `One with the Tree` from Warlock's Tree Patron giving your ranged attacks -2 to hit instead of granting permanent half-cover bonus to you
+- fixed `Light's Protection` from Barbarian's `Path of Light` healing triggering before level 6 of Barbarian and also mabe it round down, as most half-level features do
+- fixed `Baleful Scion` trying to apply to gadgets on AoE spells
+- made `Power Surge` from War Magic Wizard school to not trigger on gadgets or friendlies and waste the effect
+- updated description of `Power Surge` from War Magic Wizard to mention damage being negated if target saves against the spell
+
+1.5.97.121:
+- add monster portraits from EoModeras's mod on Nexus (PR by Zappa)
+
+1.5.97.120:
+- fixed interaction between Potent Spell Caster feat and blade cantrips (PR by Zappa)
+
+1.5.97.119:
+- fixed Katanas receiving only attack bonus from `Blade Mastery` feat, but not AC bonus
+- fixed `Innate Sorcery` interaction with blade cantrips (PR by Zappa)
+
+1.5.97.118:
+- buttons to loot gold, ingredients or scrolls would only be visible if there's at least one of the matching items in loot pile
+- added option for 2024 version `Draconic Resilience` from `Draconic Bloodline` Sorcerer subclass
+
+1.5.97.117:
+- made `One with Blade` attack visible only during battle
+- fixed not being able to cast 2024 Smites for warlocks when Spell Points are enabled
+- re-added `Weapon Mastery` feat
+- `Enemy Spellcasters Drop Scribed Spellbooks` - now they have used pages and drop decided not on monster load, but on monster death
+- added buttons to loot gold, ingredients and scrolls to loot popup
+
+1.5.97.116:
+- added option to make enemy spellcasters drop scribed spellbooks (Gameplay -> Campaigns) (PR by andragor)
+- added option to show targeting sight lines out of combat (Gameplay -> Campaigns) (PR by andragor)
+- improved several tooltips and log messages for `Eldritch Surge` Warlock patron
+
+1.5.97.115:
+- fixed `Panache` from `Swashbuckler` having missing text in level progression
+- added option to enable `Way of Blade` having Weapon Mastery selection
+- added option to enable older way of requesting translations from Google API
+
+1.5.97.114:
+- reworked `Nick` mastery to make off-hand attack a free action after main hand attack
+- added option to allow `Nick` weapon mastery to trigger extra attack from `Dual Flurry` feat
+
+1.5.97.113:
+- fixed several crashes related to `Eldritch Surge` warlock patron
+- updated description of Nick mastery
+
+1.5.97.112:
+- Improvements to Campaign Translator tool:
+  - Limited max concurrency to 10
+  - do not allow translation if service is not configured
+  - display error message when translation fails (still need to wait for whole process to finish)
+- added icon to the `Bloody` infusion
+- Dual Flurry: compare actual items and not item definitions - fixes edge case when dual-wielding same type of weapon and having BA attack with main hand from somewhere
+- Customized attack button name for Monk's `Flurry of Blows` and `One with the Blade` from `Way of B
+- reworked `Nick` mastery to auto-attack with off-hand when attacking with main hand instead of granting extra Bonus Action for attack
+
+1.5.97.111:
+- fixed crash if `SourceRageStop` condition interruption is triggered during travel
+- Added option to learn all scroll crafting recipes (PR by andragor)
+- Reworked User Campaign translation tool (PR by magicskysword)
+
+1.5.97.110:
+- merged nickabbey's PR with `Swashbuckler` Rogue subclass
+- added option for 2024 `Chill Touch` cantrip
+- added option for 2024 `Witch Bolt` spell
+- added option to disable requirement to perceive allies for `Sculpt Spells`
+- updated translations
+
+1.5.97.109:
+- merged Andragor's PR with simplified crafting settings (Crafting & Items > Crafting, under "Add new weapons and recipes to shops")
+- fixed 2024 Smites not triggering if you don't have Bonus Action spell available to cast
+- fixed 2024 Paladin's `Restoring Touch` triggering before level 14
+
+1.5.97.108:
+- tweaked description of `Oath of the Demon Hunter` to include ability to cast Smite spells through crossbow attacks
+- fixed crash when trying to start campaign with character that as created when `Bonus Action Potions/Poisons` enabled when this option is disabled
+- fixed crashes in auto-translated campaigns caused by translated monster id and other DB-related parameters - does not fix already broken campaigns
+
+1.5.97.107:
+- fixed potential crash when switching weapon config to 'Lighting' with empty main hand and usable device in off-hand with no torch equipped
+
+1.5.97.106:
+- fixed tags for Battle Smiths extra spells
+- fixed tooltip for `Momentum` from `Weapon Master` subclass in action-switching
+- fixed Smites 2024 getting triggered on Bonus Action attacks
+- fixed `Oath of the Demon Hunter` getting extra smite dice on level 20 instead of `Oath of Thunder`
+- merged PR with remaster of `Oath of the Demon Hunter` - old version is still present, but will be removed at later date
+- merged PR with added 2024 Fighting Style settings for Ranger and Paladin
+
+1.5.97.105:
+- merged PR with updated zh-CN localization from MagicSkySword
+- fixed potential crash related to custom portraits and wild shape
+- fixed concentration spells not terminating properly when stopping concentration after wild-shaping
+- fixed Divine Smite 2024 using wrong slot level and having wrong number of dice
+
+1.5.97.104:
+- fixed damage of Branding Smite being 1 dice bigger than intended
+- fixed smite spells 2024 slot level selection using wrong spell slots
+- fixed potential crash related to effect proxies
+
+1.5.97.103:
+- fixed crash when opening spell selection panel 
+
+1.5.97.102:
+- Merged several Pull Requests:
+  - fixes for spell and cantrip tooltip translations (fix by Jack)
+  - fixed default selected formation when using formation reset button (fix by Jack)
+  - fixed Starry Wisp cantrip not preventing invisibility on target (fix by Zappa)
+  - fixed crash when cancelling Weapon mastery re-learn (fix by Zappa)
+
+1.5.97.101:
+- fixed patch for illusionary spells against creatures with True Sight should automatically save being broken by recent changes
+- fixed selected or disabled Fighting Styles not updating in Fighting Initiate feat on game startup, only on option change
+- fixed `Wild Surge` `Fly` condition
+
+1.5.97.100:
+- fixed input handling for Feat selection modal for feat groups
+- fixed (again) being able to interact with the game world below Feat selection modal for feat groups
+
+1.5.97.99:
+- fixed Grappler feat prompting grapple for creatures that are too big
+- fixed crash when casting Illusion spells/cantrips on gadgets with `Illusion spells automatically fail against targets with True Sight` enabled
+- fixed Feat selection modal for feat groups not blocking clicks on environment
+- fixed Feat selection modal for feat groups background size on some resolutions not fully covering screen
+
+1.5.97.98:
+- fixed `Tides of Chaos` reaction to missed attack consuming 2 charges
+- fixed `Tides of Chaos` reaction triggering if you have less than 0 charges
+
+1.5.97.97:
+- fixed crash when trying to hover over `Relentless Hex` invocation outside of level-up
+- fixed Tides of Chaos not spending its uses on reaction
+- fixed large creatures sometimes receiving AoO when moving without moving out of reach
+- made `Infectious Fury` from `Path of the Beast` barbarian trigger off unarmed attacks
+- updated description of `Infectious Fury` from `Path of the Beast` barbarian to state that it only works during your turn and elaborate on exact mechanics of marking and then using free actions to consume the mark
+
+1.5.97.96:
+- fixed readied `True Strike` 2024 version triggering without any effect in some cases
+- fixed material component validation for blade cantrips to properly require melee weapon in currently active equipment slots
+- fixed cantrips from some custom sub-classes (like Druid cantrips from `Nature Domain` Clerics) not being learned if 2024 rules for sub-class on level 3 are enabled
+- hide smite spells from spell panel so you can't manually cast them outside of battle
+
+1.5.97.95:
+- added option to make `Blade Ward` cantrip into 2024 version
+- fixed free version of `Step of the Wind` from 2024 Monk granting doubled jump distance
+
+1.5.97.94:
+- fixed several instances where dice re-rolls from Lucky feat or similar sources were not respecting attributes and other modifiers
+- removed `Will apply attack modifier penalties for ranged attacks on non-perceived` setting as it has issues and is really redundant on top of disadvantage
+- fixed game breaking if several characters detect trap on location load
+
 1.5.97.93:
 - Dungeon Maker: turn ConditionForms that add Prone condition into MovementForm of FallProne type. This fixes custom monsters that inflict Prone.
 - Dungeon Maker: if attack definition is not overriden - use raw base definition. This makes possible for custom monsters to reuse their base attacks that may have effects that are not damage or condition - like some wolves that have prone.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using SolastaUnfinishedBusiness.Api.GameExtensions;
+using SolastaUnfinishedBusiness.Feats;
 using SolastaUnfinishedBusiness.Interfaces;
 using static RuleDefinitions;
 
@@ -50,9 +51,10 @@ internal sealed class AttackAfterMagicEffect(AttackAfterMagicEffect.AttackType a
         GameLocationCharacter defender,
         bool allowMelee,
         bool allowRanged,
-        bool allowThrown)
+        bool allowThrown,
+        RulesetAttackMode attackMode = null)
     {
-        var attackMode = attacker.FindActionAttackMode(ActionDefinitions.Id.AttackMain);
+        attackMode ??= attacker.FindActionAttackMode(ActionDefinitions.Id.AttackMain);
 
         if (attackMode == null)
         {
@@ -115,7 +117,7 @@ internal sealed class AttackAfterMagicEffect(AttackAfterMagicEffect.AttackType a
             return attacks;
         }
 
-        //Attack outcome is worse that required
+        //Attack outcome is worse than required
         if (actionMagicEffect.AttackRollOutcome > MinOutcomeToAttack)
         {
             return attacks;
@@ -128,15 +130,6 @@ internal sealed class AttackAfterMagicEffect(AttackAfterMagicEffect.AttackType a
         }
 
         var caster = actionParams.ActingCharacter;
-        var targets = actionParams.TargetCharacters
-            .Where(t => CanAttack(caster, t, AllowMelee, AllowRanged, AllowThrown))
-            .ToArray();
-
-        if (targets.Length == 0)
-        {
-            return attacks;
-        }
-
         var attackMode = caster.FindActionAttackMode(ActionDefinitions.Id.AttackMain);
 
         if (attackMode == null)
@@ -144,7 +137,18 @@ internal sealed class AttackAfterMagicEffect(AttackAfterMagicEffect.AttackType a
             return attacks;
         }
 
-        var maxTargets = firstTargetOnly ? 1 : targets.Length;
+        var targets = actionParams.IsReactionEffect
+            ? actionParams.TargetCharacters
+            : actionParams.TargetCharacters
+                .Where(t => CanAttack(caster, t, AllowMelee, AllowRanged, AllowThrown, attackMode))
+                .ToList();
+
+        if (targets.Count == 0)
+        {
+            return attacks;
+        }
+
+        var maxTargets = firstTargetOnly ? 1 : targets.Count;
 
         for (var i = 0; i < maxTargets; i++)
         {
@@ -162,6 +166,9 @@ internal sealed class AttackAfterMagicEffect(AttackAfterMagicEffect.AttackType a
             {
                 attackMode.AddAttackTagAsNeeded(AttackAfterMagicEffectTag);
             }
+
+            //handle interaction with Potent Spell Caster feat and blade cantrips
+            ClassFeats.CustomBehaviorFeatPotentSpellcaster.HandleBladeCantrips(caster, actionMagicEffect, attackMode);
 
             // always use free attack
             var attackActionParams =

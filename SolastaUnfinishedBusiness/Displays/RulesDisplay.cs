@@ -36,6 +36,7 @@ internal static class RulesDisplay
             Main.Settings.EnableMinInOutAttributes = true;
             Main.Settings.DisplayAllKnownSpellsDuringLevelUp = true;
             Main.Settings.DisplayPactSlotsOnSpellSelectionPanel = true;
+            Main.Settings.AlwaysSpendPactSlotsFirst = true;
         }
 
         if (Main.Settings.EnableMulticlass)
@@ -76,8 +77,17 @@ internal static class RulesDisplay
                 Main.Settings.EnableMinInOutAttributes = toggle;
             }
 
-            UI.Label();
-            UI.Label(Gui.Localize("ModUi/&MulticlassKeyHelp"));
+            toggle = Main.Settings.AlwaysSpendPactSlotsFirst;
+            if (UI.Toggle(Gui.Localize("ModUi/&AlwaysSpendPactSlotsFirst"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.AlwaysSpendPactSlotsFirst = toggle;
+            }
+
+            if (!Main.Settings.AlwaysSpendPactSlotsFirst)
+            {
+                UI.Label();
+                UI.Label(Gui.Localize("ModUi/&MulticlassKeyHelp"));    
+            }
         }
 
         UI.Label();
@@ -184,6 +194,13 @@ internal static class RulesDisplay
 
         if (Main.Settings.UseWeaponMasterySystem)
         {
+            toggle = Main.Settings.UseWeaponMasteryMonkWayOfBlade;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasteryMonkWayOfBlade"), ref toggle, UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasteryMonkWayOfBlade = toggle;
+                Tabletop2024Context.SwitchWayOfBladeWeaponMastery();
+            }
+
             toggle = Main.Settings.UseWeaponMasterySystemAddWeaponTag;
             if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemAddWeaponTag"), ref toggle, UI.AutoWidth()))
             {
@@ -208,6 +225,13 @@ internal static class RulesDisplay
                     UI.AutoWidth()))
             {
                 Main.Settings.UseWeaponMasterySystemNickExtraAttackTriggersMastery = toggle;
+            }
+
+            toggle = Main.Settings.UseWeaponMasterySystemNickDualFlurry;
+            if (UI.Toggle(Gui.Localize("ModUi/&UseWeaponMasterySystemNickDualFlurry"), ref toggle,
+                    UI.AutoWidth()))
+            {
+                Main.Settings.UseWeaponMasterySystemNickDualFlurry = toggle;
             }
 
             toggle = Main.Settings.UseWeaponMasterySystemPushSave;
@@ -300,7 +324,6 @@ internal static class RulesDisplay
             Main.Settings.OfficialObscurementRulesHeavilyObscuredAsProjectileBlocker = false;
             Main.Settings.OfficialObscurementRulesMagicalDarknessAsProjectileBlocker = false;
             Main.Settings.EnableChanceToPerceiveCloseRange = false;
-            Main.Settings.EnableShotInDarknessPenalties = false;
             Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
             LightingAndObscurementContext.SwitchOfficialObscurementRules();
         }
@@ -344,12 +367,6 @@ internal static class RulesDisplay
             {
                 Main.Settings.OfficialObscurementRulesTweakMonsters = toggle;
                 LightingAndObscurementContext.SwitchMonstersOnObscurementRules();
-            }
-            
-            toggle = Main.Settings.EnableShotInDarknessPenalties;
-            if (UI.Toggle(Gui.Localize("ModUI/&EnableShotInDarknessPenalties"), ref toggle, UI.AutoWidth()))
-            {
-                Main.Settings.EnableShotInDarknessPenalties = toggle;
             }
 
             toggle = Main.Settings.EnableChanceToPerceiveCloseRange;
@@ -584,6 +601,5 @@ internal static class RulesDisplay
         }
 
         UI.Label();
-
     }
 }

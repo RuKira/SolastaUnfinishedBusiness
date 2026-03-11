@@ -1288,6 +1288,9 @@ internal static partial class DatabaseHelper
         internal static FeatureDefinitionAttributeModifier AttributeModifierMonkUnarmoredDefense { get; } =
             GetDefinition<FeatureDefinitionAttributeModifier>("AttributeModifierMonkUnarmoredDefense");
 
+        internal static FeatureDefinitionAttributeModifier AttributeModifierSorcererDraconicResilienceAC { get; } =
+            GetDefinition<FeatureDefinitionAttributeModifier>("AttributeModifierSorcererDraconicResilienceAC");
+
         internal static FeatureDefinitionAttributeModifier AttributeModifierSorcererSorceryPointsBase { get; } =
             GetDefinition<FeatureDefinitionAttributeModifier>("AttributeModifierSorcererSorceryPointsBase");
 
@@ -1704,6 +1707,9 @@ internal static partial class DatabaseHelper
         internal static FeatureDefinitionFeatureSet FeatureSetSorcererDraconicChoice { get; } =
             GetDefinition<FeatureDefinitionFeatureSet>("FeatureSetSorcererDraconicChoice");
 
+        internal static FeatureDefinitionFeatureSet FeatureSetSorcererDraconicResilience { get; } =
+            GetDefinition<FeatureDefinitionFeatureSet>("FeatureSetSorcererDraconicResilience");
+
         internal static FeatureDefinitionFeatureSet FeatureSetTieflingHellishResistance { get; } =
             GetDefinition<FeatureDefinitionFeatureSet>("FeatureSetTieflingHellishResistance");
 
@@ -1769,6 +1775,9 @@ internal static partial class DatabaseHelper
 
         internal static FeatureDefinitionMovementAffinity MovementAffinityConditionDashing { get; } =
             GetDefinition<FeatureDefinitionMovementAffinity>("MovementAffinityConditionDashing");
+
+        internal static FeatureDefinitionMovementAffinity MovementAffinityConditionDashingBonus { get; } =
+            GetDefinition<FeatureDefinitionMovementAffinity>("MovementAffinityConditionDashingBonus");
 
         internal static FeatureDefinitionMovementAffinity MovementAffinityBarbarianFastMovement { get; } =
             GetDefinition<FeatureDefinitionMovementAffinity>("MovementAffinityBarbarianFastMovement");

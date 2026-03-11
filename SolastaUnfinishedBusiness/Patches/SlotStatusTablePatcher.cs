@@ -52,6 +52,10 @@ public static class SlotStatusTablePatcher
             int spellLevel)
         {
             var character = spellRepertoire?.GetCaster();
+            if (spellLevel == 0 && __instance.cantripLabel != null) // Missing cantrip localization
+            {
+                __instance.cantripLabel.Text = Gui.LocalizeSpellLevel(spellLevel);
+            }
 
             // spellRepertoire is null during level up...
             if (spellLevel == 0 || character == null)

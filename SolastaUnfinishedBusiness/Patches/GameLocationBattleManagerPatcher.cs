@@ -248,8 +248,8 @@ public static class GameLocationBattleManagerPatcher
                 AbilityCheckActionModifier = actionModifier,
                 Action = action
             };
-
-            yield return TryAlterOutcomeAttributeCheck.HandleITryAlterOutcomeAttributeCheck(checker, abilityCheckData);
+            var rawRoll = action.AbilityCheckRoll;//TODO: this is actually dirty roll with ability bonuses - find a raw roll somehow
+            yield return TryAlterOutcomeAttributeCheck.HandleITryAlterOutcomeAttributeCheck(checker, abilityCheckData, rawRoll);
 
             action.AbilityCheckRoll = abilityCheckData.AbilityCheckRoll;
             action.AbilityCheckRollOutcome = abilityCheckData.AbilityCheckRollOutcome;
@@ -620,23 +620,6 @@ public static class GameLocationBattleManagerPatcher
                     attackParams.effectName,
                     ref attackParams.attackModifier);
             }
-
-            //if the attacker cannot perceive the target, ranged attacks should be more than disadvantaged, but lucky hits or not at all
-            if (Global.RolledPerceptionThisTurn.ContainsKey(attackParams.attacker) 
-                && Global.RolledPerceptionThisTurn[attackParams.attacker].ContainsKey(attackParams.defender)
-                && Global.RolledPerceptionThisTurn[attackParams.attacker][attackParams.defender] == RollOutcome.Success) //then this attacker can perceive
-            {
-                
-            }
-            else //if this is ranged or thrown, it is next to impossible
-            {
-                if (Main.Settings.EnableShotInDarknessPenalties)
-                {
-                    int actualDistance = (int)int3.Distance(attackParams.attackPosition, attackParams.defensePosition);
-
-                    attackParams.attackModifier.AttackRollModifier = -actualDistance;
-                }
-            }
         }
     }
 
@@ -835,12 +818,13 @@ public static class GameLocationBattleManagerPatcher
                 if (rulesetEffect is { SourceDefinition: SpellDefinition spellDefinition })
                 {
                     //PATCH: illusionary spells against creatures with True Sight should automatically save
+                    var rulesetDefender = defender.RulesetCharacter;
                     if (Main.Settings.IllusionSpellsAutomaticallyFailAgainstTrueSightInRange &&
+                        rulesetDefender != null &&
                         spellDefinition.SchoolOfMagic == SchoolIllusion &&
                         spellDefinition.EffectDescription.TargetSide == Side.Enemy &&
                         spellDefinition != DatabaseHelper.SpellDefinitions.Silence)
                     {
-                        var rulesetDefender = defender.RulesetCharacter;
                         var senseMode =
                             rulesetDefender.SenseModes.FirstOrDefault(x => x.SenseType == SenseMode.Type.Truesight);
 

@@ -1055,6 +1055,7 @@ public static class RulesetImplementationManagerPatcher
         {
             //PATCH: illusionary spells against creatures with True Sight should automatically save
             if (!Main.Settings.IllusionSpellsAutomaticallyFailAgainstTrueSightInRange ||
+                target is not RulesetCharacter targetCharacter ||
                 sourceDefinition is not
                     SpellDefinition { SchoolOfMagic: SchoolIllusion, EffectDescription.TargetSide: Side.Enemy } ||
                 sourceDefinition == DatabaseHelper.SpellDefinitions.Silence)
@@ -1063,14 +1064,14 @@ public static class RulesetImplementationManagerPatcher
             }
 
             var glCaster = GameLocationCharacter.GetFromActor(caster);
-            var glTarget = GameLocationCharacter.GetFromActor(target);
+            var glTarget = GameLocationCharacter.GetFromActor(targetCharacter);
 
             if (glCaster == null || glTarget == null)
             {
                 return true;
             }
 
-            var senseMode = glTarget.RulesetCharacter.SenseModes
+            var senseMode = targetCharacter.SenseModes
                 .FirstOrDefault(x => x.SenseType == SenseMode.Type.Truesight);
 
             return senseMode == null || !glTarget.IsWithinRange(glCaster, senseMode.SenseRange);
