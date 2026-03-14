@@ -337,7 +337,7 @@ internal static class OtherFeats
                         .SetSpellCastingOrigin(FeatureDefinitionCastSpell.CastingOrigin.Race)
                         .SetSpellKnowledge(SpellKnowledge.Selection)
                         .SetSpellReadyness(SpellReadyness.AllKnown)
-                        .SetSlotsRecharge(RechargeRate.LongRest)
+                        .SetSlotsRecharge(RechargeRate.ShortRest)
                         .SetSlotsPerLevel(SharedSpellsContext.InitiateCastingSlots)
                         .SetKnownCantrips(2, 1, FeatureDefinitionCastSpellBuilder.CasterProgression.Flat)
                         .SetKnownSpells(2, FeatureDefinitionCastSpellBuilder.CasterProgression.Flat)

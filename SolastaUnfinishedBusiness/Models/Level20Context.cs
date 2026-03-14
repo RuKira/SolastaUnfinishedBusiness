@@ -506,7 +506,7 @@ internal static class Level20Context
             new FeatureUnlockByLevel(FeatureSetAbilityScoreChoice, 11),
             new FeatureUnlockByLevel(PointPoolSorcererAdditionalMetamagic, 17),
             new FeatureUnlockByLevel(FeatureSetAbilityScoreChoice, 19),
-            new FeatureUnlockByLevel(PowerSorcerousRestoration, 7)
+            new FeatureUnlockByLevel(PowerSorcerousRestoration, 6)
         );
 
         EnumerateSlotsPerLevel(
